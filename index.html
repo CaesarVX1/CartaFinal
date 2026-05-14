@@ -17,13 +17,63 @@
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
+  <div id="welcome-menu" aria-label="Pantalla de bienvenida">
+    <div class="welcome-menu__inner">
+      <p class="welcome-menu__eyebrow">Selecciona una entrada</p>
+
+      <div class="welcome-menu__actions">
+        <button class="welcome-menu__option" type="button" data-letter-target="original">
+          Punto de Partida
+        </button>
+
+        <button
+          class="welcome-menu__option welcome-menu__option--accent"
+          type="button"
+          data-letter-target="mayo"
+        >
+          Un Respiro - 15 de Mayo
+        </button>
+
+        <div class="welcome-menu__locked-group">
+          <button
+            class="welcome-menu__option welcome-menu__option--locked"
+            type="button"
+            data-locked
+            aria-describedby="welcome-menu-message"
+          >
+            <span class="welcome-menu__locked-label">&#128274; 01 . 09 . 2026</span>
+          </button>
+
+          <p class="welcome-menu__message" id="welcome-menu-message" aria-live="polite">
+            A&uacute;n no es el momento
+          </p>
+        </div>
+
+        <div class="welcome-menu__locked-group">
+          <button
+            class="welcome-menu__option welcome-menu__option--locked"
+            type="button"
+            data-locked
+            aria-describedby="welcome-menu-message-nov"
+          >
+            <span class="welcome-menu__locked-label">&#128274; ? ? ? - 15 . 11 . 2026</span>
+          </button>
+
+          <p class="welcome-menu__message" id="welcome-menu-message-nov" aria-live="polite">
+            &iquest;Tanta prisa tienes por ver lo que hay &#129325;?
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="page-shell">
     <div class="ambient ambient-one"></div>
     <div class="ambient ambient-two"></div>
     <div class="grid-overlay" aria-hidden="true"></div>
 
     <main>
-      <section class="hero" id="top">
+      <section class="hero" id="hero-original">
         <section class="copy-column">
           <p class="eyebrow reveal">
             Octubre 2025 <span></span> 19 Marzo 2026
@@ -80,6 +130,58 @@
         </section>
       </section>
 
+      <section class="hero" id="hero-mayo" style="display: none;">
+        <section class="copy-column">
+          <p class="eyebrow reveal">15 Mayo 2026</p>
+
+          <h1 class="title reveal">Un respiro.</h1>
+
+          <p class="lead reveal">
+            A veces, lo que uno necesita es parar un segundo, y desconectar
+            cuando te sientes abrumado por querer cargar con todo :)
+          </p>
+
+          <div class="text-panel reveal">
+            <p>
+              Espero que el v&iacute;deo te haya sacado una peque&ntilde;a sonrisa
+              jajaja (Perdona si estaba nervioso, me daba bastante corte
+              grabarme)
+            </p>
+          </div>
+
+          <div class="micro-copy reveal">
+            <span class="status-dot"></span>
+            <p>Desliza. Hay algo nuevo para ti.</p>
+          </div>
+
+          <a class="scroll-link reveal" href="#carta">Leer la carta completa</a>
+        </section>
+
+        <section class="visual-column reveal">
+          <div class="frame">
+            <div class="gif-stage gif-stage--gated" id="mayo-video-stage">
+              <video id="mayo-video" loop playsinline preload="metadata">
+                <source src="./VideoNubes/OposicionRespiroNubesss.mp4" type="video/mp4">
+              </video>
+              <div class="video-play-overlay" id="mayo-video-overlay">
+                <button class="video-play-button" id="btn-play-mayo-video" type="button">
+                  Reproducir Video
+                </button>
+              </div>
+              <div class="scanline"></div>
+            </div>
+
+            <div class="frame-caption">
+              <p>Respira.</p>
+            </div>
+          </div>
+
+          <aside class="side-note">
+            <p>Siguiente parada: 1 de septiembre.</p>
+          </aside>
+        </section>
+      </section>
+
       <section class="letter-section reveal" id="carta">
         <div class="letter-shell">
           <div class="letter-header">
@@ -87,7 +189,7 @@
             <h2>Lo que no quería dejar sin decir.</h2>
           </div>
 
-          <article class="letter-card">
+          <article class="letter-card" id="carta-original">
             <p>
               Te pido disculpas, pero no por haber querido verte o por pedirte
               un café. Te pido disculpas por haber dado por hecho que estabas en
@@ -186,11 +288,66 @@
               preferito." 🇮🇹
             </blockquote>
           </article>
+
+          <article class="letter-card" id="carta-mayo" style="display: none;">
+            <p>Holaaaa de nuevo.</p>
+
+            <p>
+              Como te dec&iacute;a en el v&iacute;deo, espero que no te olvides de respirar
+              entre tanto caos. Supongo que ahora el ruido a tu alrededor habr&aacute;
+              subido, la chica del trabajo se habr&aacute; reincorporado y estar&aacute;s con
+              la cabeza a mil por las opos... pero eres mucho m&aacute;s capaz de lo
+              que crees para superar todo esto.
+            </p>
+
+            <p>
+              Mientras preparaba esto, se me qued&oacute; una frase tuya grabada: eso
+              de que, seg&uacute;n t&uacute;, te falt&oacute; valent&iacute;a... Mira, hace falta mucho
+              valor para reconocer que uno no puede con todo y saber parar. Si
+              en tu cabeza sigues pensando que fuiste un cobarde, es que eres un
+              tonto (jajaja). Somos humanos, a veces no somos racionales y, por
+              eso, tampoco perfectos. No te machaques m&aacute;s, porque para m&iacute; lo
+              hiciste lo mejor que supiste.
+            </p>
+
+            <p>
+              No te mentir&eacute;, alguna que otra vez que paso por una confiter&iacute;a y
+              veo la tarta de la abuela o la de Tres chocolates, recuerdo
+              nuestras charlas de Navidad... Y me pregunto qu&eacute; tal le ir&aacute; al
+              bello durmiente jajaja, si estar&aacute; hibernando entre apuntes o si
+              le est&aacute;n dando un respiro los chiquillos del cole.
+            </p>
+
+            <p>
+              D&aacute;ndole vueltas alguna que otra vez, a veces tambi&eacute;n me pregunto
+              c&oacute;mo se escuchar&aacute; tu risa, o c&oacute;mo ser&aacute; ver en persona esa
+              sonrisa que tanto criticabas en la foto de Elfo... Espero que
+              est&eacute;s cuidando esa carita de bueno y que no te olvides de
+              disfrutar y desconectar, Ricitos.
+            </p>
+
+            <p>
+              PD: S&eacute; que es casi imposible pedirte que no seas tan autoexigente
+              con la oposici&oacute;n y el curro jajaja. Pero, de verdad, no dejes que
+              el temario y los apuntes te absorban al 100%. Tener un rato para
+              ti, tomarte un caf&eacute; o desconectar sin mirar el reloj no har&aacute; que
+              te quiten la plaza... Al rev&eacute;s, te dar&aacute; la energ&iacute;a para ese
+              &uacute;ltimo empuj&oacute;n. As&iacute; que, prom&eacute;tete a ti mismo que no vas a
+              dejarte absorber por ello... Cu&iacute;date mucho andaa!! &#128579;
+            </p>
+
+            <p>Mucho &aacute;nimo, que ya queda menos para tu meta!!</p>
+
+            <p>
+              &iquest;Te ves capaz de acordarte de la siguiente fecha? 1 de
+              Septiembre.
+            </p>
+          </article>
         </div>
       </section>
     </main>
   </div>
-
+  <button id="btn-back-menu" type="button">Volver al men&uacute;</button>
   <script src="./script.js"></script>
 </body>
 </html>

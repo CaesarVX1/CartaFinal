@@ -34,6 +34,14 @@
           Un Respiro - 15 de Mayo
         </button>
 
+        <button
+          class="welcome-menu__option welcome-menu__option--glitch"
+          type="button"
+          data-letter-target="cyber"
+        >
+          <span class="welcome-menu__glitch-text" data-text="? ? ?">? ? ?</span>
+        </button>
+
         <div class="welcome-menu__locked-group">
           <button
             class="welcome-menu__option welcome-menu__option--locked"
@@ -182,11 +190,308 @@
         </section>
       </section>
 
+      <section class="hero hero--cyber" id="hero-cyber" style="display: none;">
+        <section class="visual-column visual-column--cyber-full">
+          <div class="frame frame--cyber">
+            <div class="cyber-terminal cyber-terminal--live" id="cyber-terminal-live">
+              <p class="cyber-terminal__title cyber-glitch-text" data-text="OLDNET://UNKNOWN">
+                OLDNET://UNKNOWN
+              </p>
+
+              <div class="cyber-progress">
+                <div class="cyber-progress__meta">
+                  <span class="cyber-progress__label cyber-glitch-text" data-text="HACKING PROGRESS">
+                    HACKING PROGRESS
+                  </span>
+                  <span class="cyber-progress__value" id="cyber-progress-value">0%</span>
+                </div>
+
+                <div
+                  class="cyber-progress__track"
+                  role="progressbar"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                  aria-label="Hacking progress"
+                >
+                  <span class="cyber-progress__fill" id="cyber-progress-fill"></span>
+                </div>
+              </div>
+
+              <div class="cyber-terminal__panel">
+                <p
+                  class="cyber-terminal__status cyber-glitch-text cyber-glitch-text--compact"
+                  data-text="UNKNOWN_ROUTE_PROTOCOL"
+                >
+                  UNKNOWN_ROUTE_PROTOCOL
+                </p>
+
+                <div class="cyber-terminal__stream" id="cyber-terminal-stream" aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+
+          <p class="cyber-warning-hint" id="cyber-warning-hint">
+            El protocolo est&aacute; detenido. Resuelve las advertencias para continuar la intrusi&oacute;n.
+          </p>
+        </section>
+      </section>
+
+      <div class="cyber-warning-layer" id="cyber-warning-layer" aria-live="polite"></div>
+      <div class="cyber-video-overlay" id="cyber-video-overlay" aria-hidden="true">
+        <div class="cyber-video-overlay__shell">
+          <video id="cyber-journey-video" playsinline preload="metadata" controls>
+            <source src="./Cancion Entrada Cyberpunk/Video Net.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+      <div class="cyber-arrival-screen" id="cyber-arrival-screen" aria-hidden="true">
+        <div class="cyber-arrival-screen__inner">
+          <div class="cyber-arrival-screen__pages">
+            <section class="cyber-arrival-screen__page is-active" data-arrival-page>
+              <p class="cyber-arrival-screen__eyebrow">OLDNET://UNKNOWN</p>
+              <h2 class="cyber-arrival-screen__title">Acceso a fragmento 002 estabilizado</h2>
+              <p class="cyber-arrival-screen__text">
+                Conexi&oacute;n segura.
+              </p>
+              <div class="cyber-arrival-screen__note">
+                <p class="cyber-arrival-screen__note-text">
+                  Nunca hab&iacute;a hecho algo as&iacute; antes.
+                </p>
+                <p class="cyber-arrival-screen__note-text">
+                  Este espacio est&aacute; hecho solo para ti, desde la animaci&oacute;n de acceso hasta cada peque&ntilde;o detalle que aparece despu&eacute;s.
+                  Quer&iacute;a que se sintiera como entrar en un rinc&oacute;n oculto de la Old Net... uno que solo t&uacute; pudieras encontrar.
+                </p>
+                <p class="cyber-arrival-screen__note-text">
+                  Porque, al final, esta p&aacute;gina tambi&eacute;n es un peque&ntilde;o lugar que quer&iacute;a guardar para ti.
+                </p>
+              </div>
+            </section>
+
+            <section class="cyber-arrival-screen__page cyber-arrival-screen__page--placeholder" data-arrival-page hidden>
+              <p class="cyber-arrival-screen__eyebrow">OLDNET://UNKNOWN</p>
+              <div class="cyber-arrival-screen__media-stage" id="cyber-arrival-video-stage">
+                <video id="cyber-arrival-video" playsinline preload="metadata" controls>
+                  <source src="./Cancion Entrada Cyberpunk/Video Entrada.mp4" type="video/mp4">
+                </video>
+                <div class="cyber-arrival-screen__media-overlay">
+                  <button class="cyber-arrival-screen__button cyber-arrival-screen__button--primary" id="btn-play-arrival-video" type="button">
+                    Reproducir v&iacute;deo
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section class="cyber-arrival-screen__page cyber-arrival-screen__page--message" data-arrival-page hidden>
+              <p class="cyber-arrival-screen__eyebrow">OLDNET://UNKNOWN</p>
+              <p class="cyber-arrival-screen__text">
+                Si has llegado hasta aqu&iacute;, supongo que ya entiendes un poco mejor por qu&eacute; eleg&iacute; ese fragmento para el v&iacute;deo.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Pero todav&iacute;a me quedaban algunas cosas que quer&iacute;a decirte...
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Estas son las palabras que no pude decirte el otro d&iacute;a, porque la verg&uuml;enza y el miedo me bloquearon y me hicieron ser mucho menos expresivo de lo que realmente quer&iacute;a.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Much&iacute;simas gracias otra vez por esos detalles que, seg&uacute;n t&uacute;, son tonter&iacute;as. Para m&iacute; no lo son en absoluto.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Nunca antes me hab&iacute;an regalado algo as&iacute;, y tanto el v&iacute;deo como ese dibujo significan much&iacute;simo para m&iacute;. Puede que para ti sean peque&ntilde;os detalles, pero yo veo el tiempo, el cari&ntilde;o y la intenci&oacute;n que hay detr&aacute;s de ellos.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Y desde que me los mandaste no dejo de pensar en algo...
+              </p>
+              <p class="cyber-arrival-screen__text">
+                <strong>T&uacute; eres muy Lucy.</strong>
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Elegante, ciertamente misterioso, con esa personalidad introvertida y solitaria... pero que, cuando est&aacute; con David, deja ver tambi&eacute;n una parte mucho m&aacute;s so&ntilde;adora, apasionada y leal.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                En tu v&iacute;deo hablabas de <em>I Really Want to Stay at Your House</em>, una canci&oacute;n que, para m&iacute;, representa perfectamente a Lucy.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Una canci&oacute;n sobre querer quedarse junto a alguien, intentar protegerlo y sentir que, aun haciendo todo lo posible, puede terminar escap&aacute;ndose entre tus dedos.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Y creo que hay algo especialmente triste en Lucy y David:
+              </p>
+              <p class="cyber-arrival-screen__text">
+                <strong>los dos quer&iacute;an proteger al otro, pero cada uno pensaba que ten&iacute;a que hacerlo solo.</strong>
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Lucy pensaba algo parecido a:
+              </p>
+              <p class="cyber-arrival-screen__text">
+                <em>&laquo;Si me alejo, estar&aacute; a salvo.&raquo;</em>
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Mientras que David pensaba:
+              </p>
+              <p class="cyber-arrival-screen__text">
+                <em>&laquo;Tengo que volverme m&aacute;s fuerte para mantener a Lucy a salvo.&raquo;</em>
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Pero hay otra canci&oacute;n que, para m&iacute;, representa mucho m&aacute;s a David.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                <em>Let You Down.</em>
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Y precisamente por eso quer&iacute;a que fuera la canci&oacute;n que acompa&ntilde;ara estas palabras.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                David quer&iacute;a que Lucy llegara a la Luna.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Quer&iacute;a protegerla, cumplir su sue&ntilde;o y hacerse lo bastante fuerte para conseguirlo.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Pero Lucy nunca quiso simplemente llegar a la Luna.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                <strong>Quer&iacute;a que David llegara con ella.</strong>
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Y, siendo sincero...
+              </p>
+              <p class="cyber-arrival-screen__text">
+                creo que precisamente por eso me identifico tanto con David.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Tengo bastantes m&aacute;s miedos de los que probablemente parezca.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Muchas veces, cuando me da corte decirte algo, no es &uacute;nicamente verg&uuml;enza. Tambi&eacute;n est&aacute; ese miedo a decir algo que no deba, equivocarme, pasarme o terminar decepcion&aacute;ndote.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                A veces pienso demasiado las cosas precisamente por eso.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Porque cuando alguien me importa, aparece tambi&eacute;n ese miedo a no ser suficiente o a hacer algo mal.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Pero, siendo sincero, contigo ese miedo es bastante menor.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Siento que tengo mucha m&aacute;s confianza y que puedo ser m&aacute;s yo mismo.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                No s&eacute; si es simplemente porque eres t&uacute;, porque me haces sentir c&oacute;modo contigo... o probablemente un poco de ambas.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Y creo que por eso entiendo demasiado bien esa parte de David que intenta hacerse cada vez m&aacute;s fuerte, como si tuviera que demostrar que puede con todo para no fallarle a la persona que le importa.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Solo que quiz&aacute;...
+              </p>
+              <p class="cyber-arrival-screen__text">
+                solo quiz&aacute;...
+              </p>
+              <p class="cyber-arrival-screen__text">
+                <strong>nunca se trat&oacute; de ser suficiente para llevar a alguien hasta la Luna.</strong>
+              </p>
+              <p class="cyber-arrival-screen__text">
+                <strong>Quiz&aacute; se trataba simplemente de llegar juntos.</strong>
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Y creo que eso es tambi&eacute;n lo que quer&iacute;a decirte con todo esto.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                No hace falta que hagas cosas enormes para que tengan valor para m&iacute;.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Ese v&iacute;deo, ese dibujo, las cosas que me dices, el tiempo que dedicas...
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Quiz&aacute; t&uacute; puedas verlas como peque&ntilde;os detalles.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Yo no.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Yo veo una parte de ti que decidiste compartir conmigo.
+              </p>
+              <p class="cyber-arrival-screen__text">
+                Y por eso los guardo como lo que realmente son para m&iacute;:
+              </p>
+              <p class="cyber-arrival-screen__text cyber-arrival-screen__text--final">
+                algo muy especial.
+              </p>
+            </section>
+
+            <section class="cyber-arrival-screen__page cyber-arrival-screen__page--gallery" data-arrival-page hidden>
+              <p class="cyber-arrival-screen__eyebrow">OLDNET://UNKNOWN</p>
+              <div class="cyber-arrival-screen__gallery-copy">
+                <p class="cyber-arrival-screen__text">
+                  Aquel d&iacute;a me llev&eacute; m&aacute;s de una cosa conmigo.
+                </p>
+                <p class="cyber-arrival-screen__text">
+                  Me llev&eacute; esta vista.
+                </p>
+                <p class="cyber-arrival-screen__text">
+                  Me llev&eacute; tu dibujo.
+                </p>
+                <p class="cyber-arrival-screen__text">
+                  Y me llev&eacute; un recuerdo al que, sin darme cuenta, iba a terminar volviendo m&aacute;s de una vez.
+                </p>
+              </div>
+              <div class="cyber-arrival-screen__gallery">
+                <figure class="cyber-arrival-screen__gallery-item">
+                  <img src="./Cancion Entrada Cyberpunk/Foto Elda.jpeg" alt="Vista guardada de aquel d&iacute;a">
+                </figure>
+                <figure class="cyber-arrival-screen__gallery-item">
+                  <img src="./Cancion Entrada Cyberpunk/Dibujo Josemii.png" alt="Dibujo guardado como recuerdo especial">
+                </figure>
+              </div>
+              <div class="cyber-arrival-screen__gallery-copy cyber-arrival-screen__gallery-copy--closing">
+                <p class="cyber-arrival-screen__text">
+                  Quiz&aacute; por eso quer&iacute;a que fueran estas dos im&aacute;genes las que cerrasen todo esto.
+                </p>
+                <p class="cyber-arrival-screen__text">
+                  Porque despu&eacute;s de tantas cosas, <strong>esto s&iacute; ocurri&oacute; de verdad.</strong>
+                </p>
+                <p class="cyber-arrival-screen__text">
+                  Y me alegro mucho de haber estado all&iacute; contigo.
+                </p>
+                <p class="cyber-arrival-screen__text">
+                  Dicho todo esto... quiz&aacute; me equivoque, pero siento que hay alguna cosa m&aacute;s rond&aacute;ndote la cabeza aparte de la oposici&oacute;n y de este mes tan ajetreado.
+                </p>
+                <p class="cyber-arrival-screen__text">
+                  No tienes que explicarme nada, y mucho menos antes de que t&uacute; quieras hacerlo.
+                </p>
+                <p class="cyber-arrival-screen__text">
+                  Pero si alg&uacute;n d&iacute;a te apetece soltar un poco de todo eso, me gustar&iacute;a seguir siendo ese lugar o refugio en el que te sientas c&oacute;modo y seguro haci&eacute;ndolo.
+                </p>
+                <p class="cyber-arrival-screen__text">
+                  Nos queda mucha Luna y estrellas por delante. 🌙
+                </p>
+              </div>
+            </section>
+          </div>
+
+          <div class="cyber-arrival-screen__footer">
+            <p class="cyber-arrival-screen__counter">
+              <span id="cyber-arrival-page-current">01</span> / 04
+            </p>
+            <div class="cyber-arrival-screen__actions">
+              <button class="cyber-arrival-screen__button" id="cyber-arrival-prev" type="button">
+                Anterior
+              </button>
+              <button class="cyber-arrival-screen__button cyber-arrival-screen__button--primary" id="cyber-arrival-next" type="button">
+                Siguiente
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <section class="letter-section reveal" id="carta">
         <div class="letter-shell">
           <div class="letter-header">
-            <p class="eyebrow">Carta completa</p>
-            <h2>Lo que no quería dejar sin decir.</h2>
+            <p class="eyebrow" id="letter-eyebrow">Carta completa</p>
+            <h2 id="letter-heading">Lo que no quería dejar sin decir.</h2>
           </div>
 
           <article class="letter-card" id="carta-original">
@@ -343,11 +648,63 @@
               Septiembre.
             </p>
           </article>
+
+          <article class="letter-card letter-card--cyber" id="carta-cyber" style="display: none;">
+            <div class="cyber-terminal cyber-terminal--full">
+              <p class="cyber-terminal__title cyber-glitch-text" data-text="OLDNET://UNKNOWN">
+                OLDNET://UNKNOWN
+              </p>
+
+              <div class="cyber-terminal__panel">
+                <p class="cyber-terminal__status">ACCESS_REPORT</p>
+
+                <div class="cyber-terminal__stream cyber-terminal__stream--static">
+                  <p class="cyber-terminal__line">
+                    <span class="cyber-terminal__prompt">&gt;</span>
+                    Ruta oculta inyectada en la interfaz principal.
+                  </p>
+                  <p class="cyber-terminal__line">
+                    <span class="cyber-terminal__prompt">&gt;</span>
+                    M&oacute;dulo cyber activo y listo para seguir editando.
+                  </p>
+                  <p class="cyber-terminal__line">
+                    <span class="cyber-terminal__prompt">&gt;</span>
+                    Estado actual: acceso parcial concedido.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <p>
+              Esta entrada nace como una se&ntilde;al glitchy: m&aacute;s fr&iacute;a,
+              m&aacute;s extra&ntilde;a y con un aire de terminal filtrado antes de tiempo.
+              Ya la tienes viva en el c&oacute;digo para seguir retocando textos,
+              comandos y efectos sin depender de la imagen.
+            </p>
+
+            <p>
+              Si quieres, el siguiente paso aqu&iacute; puede ser convertir este
+              bloque en algo m&aacute;s narrativo, m&aacute;s misterioso o incluso m&aacute;s
+              interactivo.
+            </p>
+          </article>
         </div>
       </section>
     </main>
   </div>
-  <button id="btn-back-menu" type="button">Volver al men&uacute;</button>
+  <div class="floating-controls" id="floating-controls">
+    <button id="btn-back-menu" type="button">Volver al men&uacute;</button>
+    <button id="btn-toggle-cyber-audio" type="button">Pausar canci&oacute;n</button>
+    <button id="btn-switch-cyber-audio" type="button">Cambiar canci&oacute;n</button>
+    <button id="btn-restart-cyber-audio" type="button">Reiniciar canci&oacute;n</button>
+  </div>
+  <audio
+    id="cyber-audio"
+    loop
+    preload="auto"
+    src="./Cancion Entrada Cyberpunk/Let You Down.mp3"
+    data-track-primary="./Cancion Entrada Cyberpunk/Let You Down.mp3"
+    data-track-secondary="./Cancion Entrada Cyberpunk/I Really Want To Stay At Your House.mp3"></audio>
   <script src="./script.js"></script>
 </body>
 </html>

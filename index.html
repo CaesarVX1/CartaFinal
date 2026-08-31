@@ -19,7 +19,15 @@
 <body>
   <div id="welcome-menu" aria-label="Pantalla de bienvenida">
     <div class="welcome-menu__inner">
-      <p class="welcome-menu__eyebrow">Selecciona una entrada</p>
+      <p class="welcome-menu__eyebrow">
+        Selecciona una
+        <button
+          class="welcome-menu__secret-trigger"
+          id="welcome-menu-secret-trigger"
+          type="button"
+          aria-label="Entrada"
+        >entrada</button>
+      </p>
 
       <div class="welcome-menu__actions">
         <button class="welcome-menu__option" type="button" data-letter-target="original">
@@ -42,20 +50,13 @@
           <span class="welcome-menu__glitch-text" data-text="? ? ?">? ? ?</span>
         </button>
 
-        <div class="welcome-menu__locked-group">
-          <button
-            class="welcome-menu__option welcome-menu__option--locked"
-            type="button"
-            data-locked
-            aria-describedby="welcome-menu-message"
-          >
-            <span class="welcome-menu__locked-label">&#128274; 01 . 09 . 2026</span>
-          </button>
-
-          <p class="welcome-menu__message" id="welcome-menu-message" aria-live="polite">
-            A&uacute;n no es el momento
-          </p>
-        </div>
+        <button
+          class="welcome-menu__option welcome-menu__option--starlight"
+          type="button"
+          data-letter-target="stars"
+        >
+          Mira al cielo <span class="welcome-menu__starlight-icon" aria-hidden="true">&#128171;</span> - 01.09.2026
+        </button>
 
         <div class="welcome-menu__locked-group">
           <button
@@ -73,6 +74,86 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <section class="starry-sky" id="starry-sky" aria-hidden="true" aria-label="Cielo estrellado">
+    <div class="starry-sky__nebula" aria-hidden="true"></div>
+    <div class="starry-sky__stars">
+      <button class="starry-sky__fixed-star" type="button" data-star-fragment="1" aria-label="Leer la primera estrella"></button>
+      <button class="starry-sky__fixed-star" type="button" data-star-fragment="2" aria-label="Leer la segunda estrella"></button>
+      <button class="starry-sky__fixed-star" type="button" data-star-fragment="3" aria-label="Leer la tercera estrella"></button>
+      <button class="starry-sky__fixed-star" type="button" data-star-fragment="4" aria-label="Leer la cuarta estrella"></button>
+    </div>
+    <div class="starry-sky__horizon" aria-hidden="true"></div>
+    <p class="starry-sky__hint" id="starry-sky-hint" role="status">
+      Haz clic en alguna de las estrellas que m&aacute;s brillan.
+    </p>
+    <p class="starry-sky__feedback" id="starry-sky-feedback" role="status"></p>
+  </section>
+
+  <div class="shooting-star-transition" id="shooting-star-transition" aria-hidden="true"></div>
+
+  <div class="star-fragment" id="star-fragment" aria-hidden="true">
+    <div class="star-fragment__backdrop" data-close-star-fragment></div>
+    <article
+      class="star-fragment__sheet"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="star-fragment-title"
+    >
+      <button class="star-fragment__close" type="button" data-close-star-fragment aria-label="Cerrar fragmento">
+        &times;
+      </button>
+      <p class="star-fragment__eyebrow" id="star-fragment-eyebrow">Fragmento estelar 01</p>
+      <h2 class="star-fragment__title" id="star-fragment-title">Primera estrella</h2>
+      <div class="star-fragment__body" id="star-fragment-body"></div>
+      <footer class="star-fragment__footer">
+        <p class="star-fragment__progress" id="star-fragment-progress">0 / 4 estrellas le&iacute;das</p>
+        <button class="star-fragment__return" type="button" data-close-star-fragment>
+          Volver al cielo
+        </button>
+      </footer>
+    </article>
+  </div>
+
+  <div class="wish-admin" id="wish-admin" aria-hidden="true">
+    <div class="wish-admin__backdrop" data-close-wish-admin></div>
+    <article
+      class="wish-admin__dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="wish-admin-title"
+    >
+      <button class="wish-admin__close" type="button" data-close-wish-admin aria-label="Cerrar archivo">
+        &times;
+      </button>
+      <p class="wish-admin__eyebrow">Archivo reservado</p>
+      <h2 class="wish-admin__title" id="wish-admin-title">Deseos capturados</h2>
+
+      <form class="wish-admin__login" id="wish-admin-login">
+        <label for="wish-admin-password">Contrase&ntilde;a de acceso</label>
+        <div class="wish-admin__login-row">
+          <input
+            id="wish-admin-password"
+            name="password"
+            type="password"
+            inputmode="numeric"
+            autocomplete="current-password"
+            required
+          >
+          <button type="submit">Abrir archivo</button>
+        </div>
+        <p class="wish-admin__status" id="wish-admin-status" role="status"></p>
+      </form>
+
+      <div class="wish-admin__archive" id="wish-admin-archive" hidden>
+        <div class="wish-admin__archive-topline">
+          <p id="wish-admin-count">0 deseos guardados</p>
+          <button id="wish-admin-lock" type="button">Cerrar sesi&oacute;n</button>
+        </div>
+        <div class="wish-admin__list" id="wish-admin-list"></div>
+      </div>
+    </article>
   </div>
 
   <div class="page-shell">
@@ -694,6 +775,31 @@
   </div>
   <div class="floating-controls" id="floating-controls">
     <button id="btn-back-menu" type="button">Volver al men&uacute;</button>
+    <button id="btn-toggle-stars-audio" type="button">Pausar canci&oacute;n</button>
+    <button id="btn-switch-stars-audio" type="button">Cambiar canci&oacute;n</button>
+    <div class="stars-volume-control" id="stars-volume-control">
+      <button
+        id="btn-stars-volume"
+        type="button"
+        aria-expanded="false"
+        aria-controls="stars-volume-panel"
+      >Volumen &middot; 55%</button>
+      <div class="stars-volume-control__panel" id="stars-volume-panel">
+        <label for="stars-volume-range">
+          Volumen
+          <output id="stars-volume-output" for="stars-volume-range">55%</output>
+        </label>
+        <input
+          id="stars-volume-range"
+          type="range"
+          min="0"
+          max="100"
+          step="1"
+          value="55"
+          aria-label="Volumen de la canci&oacute;n"
+        >
+      </div>
+    </div>
     <button id="btn-toggle-cyber-audio" type="button">Pausar canci&oacute;n</button>
     <button id="btn-switch-cyber-audio" type="button">Cambiar canci&oacute;n</button>
     <button id="btn-restart-cyber-audio" type="button">Reiniciar canci&oacute;n</button>
@@ -705,6 +811,14 @@
     src="./Cancion Entrada Cyberpunk/Let You Down.mp3"
     data-track-primary="./Cancion Entrada Cyberpunk/Let You Down.mp3"
     data-track-secondary="./Cancion Entrada Cyberpunk/I Really Want To Stay At Your House.mp3"></audio>
+  <audio
+    id="stars-audio"
+    loop
+    preload="auto"
+    src="./Entrada 1 Septiembre/in the pool.mp3"
+    data-track-primary="./Entrada 1 Septiembre/in the pool.mp3"
+    data-track-secondary="./Entrada 1 Septiembre/Mesora di sole.mp3"></audio>
+  <script src="./supabase-config.js"></script>
   <script src="./script.js"></script>
 </body>
 </html>

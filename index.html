@@ -18,7 +18,81 @@
 </head>
 <body>
   <div id="welcome-menu" aria-label="Pantalla de bienvenida">
+    <svg class="welcome-menu__wall-crack" viewBox="0 0 300 1000" fill="none" aria-hidden="true" focusable="false">
+      <defs>
+        <path id="menu-wall-fracture" d="M184 -20 171 72 188 111 151 168 162 205 131 263 145 296 110 351 130 393 96 456 113 490 84 545 105 587 74 649 92 691 68 740 86 788 58 852 70 897 45 953 51 1020 M151 168 110 179 87 211 44 225 M110 351 162 374 173 412 213 435 M84 545 52 561 42 601 14 624 M92 691 139 713 152 751 190 768 M58 852 106 875 112 917 148 940" />
+      </defs>
+      <use href="#menu-wall-fracture" class="welcome-menu__crack-shadow" />
+      <use href="#menu-wall-fracture" class="welcome-menu__crack-edge" />
+      <use href="#menu-wall-fracture" class="welcome-menu__crack-light" />
+    </svg>
+    <svg class="welcome-menu__wall-hole" viewBox="0 0 420 240" fill="none" aria-hidden="true" focusable="false">
+      <defs>
+        <radialGradient id="menu-hole-depth" cx="42%" cy="35%" r="70%">
+          <stop offset="0" stop-color="#010102" />
+          <stop offset="0.7" stop-color="#030305" />
+          <stop offset="1" stop-color="#141215" />
+        </radialGradient>
+        <linearGradient id="menu-hole-ray" gradientUnits="userSpaceOnUse" x1="88" y1="119" x2="345" y2="135">
+          <stop offset="0" stop-color="#ffb85b" stop-opacity="0" />
+          <stop offset="0.17" stop-color="#ffbd69" stop-opacity="0.56" />
+          <stop offset="0.3" stop-color="#ed9c48" stop-opacity="0.34" />
+          <stop offset="0.58" stop-color="#c47a32" stop-opacity="0.12" />
+          <stop offset="0.82" stop-color="#b06b2d" stop-opacity="0.03" />
+          <stop offset="1" stop-color="#a15d25" stop-opacity="0" />
+        </linearGradient>
+        <radialGradient id="menu-hole-candle" gradientUnits="userSpaceOnUse" cx="151" cy="116" r="83">
+          <stop offset="0" stop-color="#ffc06b" stop-opacity="0.66" />
+          <stop offset="0.35" stop-color="#e9973c" stop-opacity="0.48" />
+          <stop offset="0.72" stop-color="#a85220" stop-opacity="0.18" />
+          <stop offset="1" stop-color="#6b3016" stop-opacity="0" />
+        </radialGradient>
+        <clipPath id="menu-hole-interior-clip">
+          <path d="m101 91 17 -8 14 12 16 2 5 18 -9 17 -5 15 -18 8 -15 -8 -18 -3 -8 -16 5 -18Z" />
+        </clipPath>
+        <radialGradient id="menu-hole-bounce" gradientUnits="userSpaceOnUse" cx="151" cy="123" r="89" gradientTransform="translate(0 55.35) scale(1 0.55)">
+          <stop offset="0" stop-color="#e99b45" stop-opacity="0.23" />
+          <stop offset="0.45" stop-color="#bd722f" stop-opacity="0.09" />
+          <stop offset="1" stop-color="#ad642b" stop-opacity="0" />
+        </radialGradient>
+        <filter id="menu-hole-ray-soften" filterUnits="userSpaceOnUse" x="40" y="-40" width="380" height="320">
+          <feGaussianBlur stdDeviation="7" />
+        </filter>
+        <filter id="menu-hole-haze-soften" filterUnits="userSpaceOnUse" x="30" y="-40" width="390" height="320">
+          <feGaussianBlur stdDeviation="15" />
+        </filter>
+        <path id="menu-hole-fractures" d="M100 88 88 64 91 50 77 29 M142 96 163 80 166 64 189 49 M153 132 181 139 191 155 216 162 M123 155 120 178 131 191 126 218 M87 139 64 151 46 148 27 163 M79 111 56 102 44 80 23 76 M88 64 70 63 62 52 M181 139 198 127 213 129" />
+      </defs>
+      <use href="#menu-hole-fractures" class="welcome-menu__crack-shadow" />
+      <use href="#menu-hole-fractures" class="welcome-menu__crack-edge" />
+      <ellipse class="welcome-menu__candle-bounce" cx="157" cy="123" rx="110" ry="60" fill="url(#menu-hole-bounce)" />
+      <path class="welcome-menu__hole-rim" d="m97 84 20 -9 17 12 20 5 7 24 -9 18 -6 19 -25 10 -17 -8 -22 -4 -10 -22 5 -22Z" />
+      <path fill="url(#menu-hole-depth)" d="m101 91 17 -8 14 12 16 2 5 18 -9 17 -5 15 -18 8 -15 -8 -18 -3 -8 -16 5 -18Z" />
+      <g clip-path="url(#menu-hole-interior-clip)">
+        <rect class="welcome-menu__candle-interior" x="65" y="65" width="110" height="110" fill="url(#menu-hole-candle)" filter="url(#menu-hole-ray-soften)" />
+      </g>
+      <path class="welcome-menu__candle-haze" d="M102 101 Q217 88 354 55 Q374 131 358 202 Q227 153 101 143 Q88 125 102 101Z" fill="url(#menu-hole-ray)" filter="url(#menu-hole-haze-soften)" />
+      <g class="welcome-menu__hole-rays" fill="url(#menu-hole-ray)" filter="url(#menu-hole-ray-soften)">
+        <path d="M108 106 Q216 89 350 54 Q346 77 344 102 Q225 117 107 130 Q99 120 108 106Z" opacity="0.68" />
+        <path d="M111 114 Q229 130 357 163 Q349 187 338 204 Q224 153 104 140Z" opacity="0.3" />
+        <path d="M116 108 Q222 105 337 100 L340 120 Q220 124 110 132Z" opacity="0.32" />
+      </g>
+      <path class="welcome-menu__candle-edge" d="m133 96 15 1 5 18 -9 17 -5 15 -18 8" />
+      <path class="welcome-menu__hole-chips" d="m77 90 8 -8 5 12Zm78 62 10 -8 -1 15Zm-67 13 7 -5 3 11Z" />
+    </svg>
     <div class="welcome-menu__inner">
+    <button class="welcome-menu__wall-note" id="btn-wall-note" type="button" aria-label="Leer la nota de la pared" aria-haspopup="dialog" aria-controls="wall-note-dialog">
+    <svg viewBox="0 0 180 220" fill="none" aria-hidden="true" focusable="false">
+      <path class="welcome-menu__note-shadow" d="m28 35 124 -1 -1 160 -123 2Z" />
+      <path class="welcome-menu__note-paper" d="m24 30 126 -1 -1 163 -125 1Z" />
+      <path class="welcome-menu__note-outline" d="m28 34 118 -1 M28 188l117 -1" />
+      <g class="welcome-menu__note-pencil">
+        <path d="m43 65 49 -1 M43 87l88 1 M43 100q40 -1 82 1 M43 114l62 -1 M43 140l86 1 M43 154q29 -1 67 0" />
+      </g>
+      <path class="welcome-menu__note-tape" d="m65 20 45 1 -1 24 -45 -1Z" />
+      <path class="welcome-menu__note-tape-line" d="m68 24 38 1 M67 40l38 1" />
+    </svg>
+    </button>
       <p class="welcome-menu__eyebrow">
         Selecciona una
         <button
@@ -73,8 +147,32 @@
           </p>
         </div>
       </div>
+
+      <div
+        class="welcome-menu__countdown"
+        id="november-countdown"
+        data-deadline="2026-11-15T00:00:00+01:00"
+        role="group"
+        aria-label="Cuenta atrás hasta el 15 de noviembre de 2026 a las 00:00, hora de España peninsular"
+      >
+        <span class="welcome-menu__countdown-unit"><strong data-countdown="days">00</strong><span>días</span></span>
+        <span class="welcome-menu__countdown-unit"><strong data-countdown="hours">00</strong><span>horas</span></span>
+        <span class="welcome-menu__countdown-unit"><strong data-countdown="minutes">00</strong><span>min</span></span>
+        <span class="welcome-menu__countdown-unit"><strong data-countdown="seconds">00</strong><span>seg</span></span>
+      </div>
     </div>
   </div>
+
+  <dialog class="wall-note-dialog" id="wall-note-dialog" aria-labelledby="wall-note-title">
+    <button class="wall-note-dialog__close" id="btn-close-wall-note" type="button" aria-label="Cerrar nota" autofocus>&times;</button>
+    <h2 id="wall-note-title">POR SI PASAS POR AQUÍ</h2>
+    <div class="wall-note-dialog__text" tabindex="0" aria-label="Texto de la nota">
+      <p>Hoy es 26 de octubre de 2026 y he cambiado algunas cosas por aquí. Esta vez no voy a avisarte. Me apetecía dejarlo como una pequeña sorpresa, por si algún día te acuerdas de este rincón y te da por volver.</p>
+      <p>Últimamente no he tenido mucho tiempo, pero he ido añadiendo detalles en los ratos que encontraba. Me sigue haciendo ilusión preparar este espacio para ti.</p>
+      <p>Si has pasado por aquí y has encontrado esta nota, espero que lo que veas te saque una pequeña sonrisa.</p>
+    </div>
+    <footer class="wall-note-dialog__signature"><em>César.</em></footer>
+  </dialog>
 
   <section class="starry-sky" id="starry-sky" aria-hidden="true" aria-label="Cielo estrellado">
     <div class="starry-sky__nebula" aria-hidden="true"></div>

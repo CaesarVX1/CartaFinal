@@ -24,6 +24,81 @@ revealItems.forEach((item, index) => {
 const welcomeMenu = document.querySelector("#welcome-menu");
 const letterButtons = document.querySelectorAll("[data-letter-target]");
 const lockedButtons = document.querySelectorAll("[data-locked]");
+const novemberCountdown = document.querySelector("#november-countdown");
+
+function initializeNovemberCountdown(element) {
+  if (!element) {
+    return;
+  }
+
+  const deadline = Date.parse(element.dataset.deadline);
+
+  if (!Number.isFinite(deadline)) {
+    return;
+  }
+
+  const fields = Object.fromEntries(
+    Array.from(element.querySelectorAll("[data-countdown]"), (field) => [field.dataset.countdown, field]),
+  );
+  let intervalId = null;
+
+  function updateCountdown() {
+    // Recalculate from the deadline so background tabs cannot make the countdown drift.
+    const remainingSeconds = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    const values = {
+      days: Math.floor(remainingSeconds / 86400),
+      hours: Math.floor((remainingSeconds % 86400) / 3600),
+      minutes: Math.floor((remainingSeconds % 3600) / 60),
+      seconds: remainingSeconds % 60,
+    };
+
+    Object.entries(values).forEach(([unit, value]) => {
+      if (fields[unit]) {
+        fields[unit].textContent = String(value).padStart(2, "0");
+      }
+    });
+
+    if (remainingSeconds === 0 && intervalId !== null) {
+      window.clearInterval(intervalId);
+      intervalId = null;
+    }
+
+    return remainingSeconds;
+  }
+
+  if (updateCountdown() > 0) {
+    intervalId = window.setInterval(updateCountdown, 1000);
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      updateCountdown();
+    }
+  });
+}
+
+initializeNovemberCountdown(novemberCountdown);
+const wallNoteButton = document.querySelector("#btn-wall-note");
+const wallNoteDialog = document.querySelector("#wall-note-dialog");
+const closeWallNoteButton = document.querySelector("#btn-close-wall-note");
+
+wallNoteButton?.addEventListener("click", () => {
+  if (wallNoteDialog && !wallNoteDialog.open) {
+    wallNoteDialog.showModal();
+  }
+});
+closeWallNoteButton?.addEventListener("click", () => wallNoteDialog?.close());
+wallNoteDialog?.addEventListener("click", (event) => {
+  if (event.target !== wallNoteDialog) {
+    return;
+  }
+
+  const bounds = wallNoteDialog.getBoundingClientRect();
+  if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) {
+    wallNoteDialog.close();
+  }
+});
+wallNoteDialog?.addEventListener("close", () => wallNoteButton?.focus());
 const backMenuButton = document.querySelector("#btn-back-menu");
 const floatingControls = document.querySelector("#floating-controls");
 const toggleCyberAudioButton = document.querySelector("#btn-toggle-cyber-audio");

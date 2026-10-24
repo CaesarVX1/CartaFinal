@@ -82,9 +82,88 @@ const wallNoteButton = document.querySelector("#btn-wall-note");
 const wallNoteDialog = document.querySelector("#wall-note-dialog");
 const closeWallNoteButton = document.querySelector("#btn-close-wall-note");
 const anniversaryAudio = document.querySelector("#anniversary-audio");
+const anniversaryControlsTemplate = document.querySelector("#anniversary-controls-template");
+const anniversaryControls = [...document.querySelectorAll("[data-anniversary-controls]")];
+let anniversaryMusicStarted = false;
+let anniversaryMusicPausedByUser = false;
+
+function syncAnniversaryControls() {
+  if (!anniversaryAudio) return;
+  const volume = Math.round(anniversaryAudio.volume * 100);
+  anniversaryControls.forEach((controls) => {
+    controls.hidden = !anniversaryMusicStarted;
+    controls.querySelector("[data-anniversary-toggle]").textContent = anniversaryAudio.paused ? "Reanudar canción" : "Pausar canción";
+    controls.querySelector("[data-anniversary-volume]").textContent = `Volumen · ${volume}%`;
+    controls.querySelector("input").value = volume;
+    controls.querySelector("output").textContent = `${volume}%`;
+  });
+}
+
+function closeAnniversaryVolumePanels() {
+  anniversaryControls.forEach((controls) => {
+    controls.querySelector("[data-anniversary-panel]").hidden = true;
+    controls.querySelector("[data-anniversary-volume]").setAttribute("aria-expanded", "false");
+  });
+}
+
+anniversaryControls.forEach((controls, index) => {
+  controls.append(anniversaryControlsTemplate.content.cloneNode(true));
+  const toggle = controls.querySelector("[data-anniversary-toggle]");
+  const volumeButton = controls.querySelector("[data-anniversary-volume]");
+  const panel = controls.querySelector("[data-anniversary-panel]");
+  const range = controls.querySelector("input");
+  panel.id = `anniversary-volume-panel-${index}`;
+  range.id = `anniversary-volume-range-${index}`;
+  volumeButton.setAttribute("aria-controls", panel.id);
+  controls.querySelector("label").htmlFor = range.id;
+  controls.querySelector("output").htmlFor = range.id;
+  controls.setAttribute("role", "group");
+  controls.setAttribute("aria-label", "Música del escritorio");
+  toggle.addEventListener("click", () => {
+    if (anniversaryAudio.paused) {
+      anniversaryMusicPausedByUser = false;
+      startAnniversaryAudio();
+    } else {
+      anniversaryMusicPausedByUser = true;
+      anniversaryAudio.pause();
+    }
+    syncAnniversaryControls();
+  });
+  volumeButton.addEventListener("click", () => {
+    const shouldOpen = panel.hidden;
+    closeAnniversaryVolumePanels();
+    panel.hidden = !shouldOpen;
+    volumeButton.setAttribute("aria-expanded", String(shouldOpen));
+    if (shouldOpen) range.focus({ preventScroll: true });
+  });
+  range.addEventListener("input", () => {
+    anniversaryAudio.volume = Number(range.value) / 100;
+    syncAnniversaryControls();
+  });
+  range.addEventListener("keydown", (event) => {
+    if (event.key.startsWith("Arrow")) event.stopPropagation();
+  });
+});
+
+// Keep controls inside each native dialog so they remain usable above its backdrop.
+document.querySelectorAll("dialog").forEach((dialog) => {
+  dialog.addEventListener("close", closeAnniversaryVolumePanels);
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  const controls = event.target.closest?.("[data-anniversary-controls]");
+  if (!controls || controls.querySelector("[data-anniversary-panel]").hidden) return;
+  event.preventDefault();
+  event.stopPropagation();
+  closeAnniversaryVolumePanels();
+  controls.querySelector("[data-anniversary-volume]").focus({ preventScroll: true });
+}, true);
 
 if (anniversaryAudio) {
   anniversaryAudio.volume = 0.55;
+  ["play", "pause", "volumechange", "ended"].forEach((event) => {
+    anniversaryAudio.addEventListener(event, syncAnniversaryControls);
+  });
 }
 
 function stopAnniversaryAudio() {
@@ -97,9 +176,11 @@ function stopAnniversaryAudio() {
 }
 
 function startAnniversaryAudio() {
-  if (!anniversaryAudio || !anniversaryAudio.paused) {
+  if (!anniversaryAudio || !anniversaryAudio.paused || anniversaryMusicPausedByUser) {
     return;
   }
+  anniversaryMusicStarted = true;
+  syncAnniversaryControls();
 
   document.querySelectorAll("audio, video").forEach((media) => {
     if (media !== anniversaryAudio) {

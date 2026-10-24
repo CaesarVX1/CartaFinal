@@ -15,7 +15,7 @@
     rel="stylesheet"
   >
   <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./desk-view.css?v=20261024-paper-drawings">
+  <link rel="stylesheet" href="./desk-view.css?v=20261024-music-controls">
   <link rel="stylesheet" href="./responsive-ui.css">
 </head>
 <body>
@@ -167,6 +167,7 @@
         <span class="welcome-menu__countdown-unit"><strong data-countdown="minutes">00</strong><span>min</span></span>
         <span class="welcome-menu__countdown-unit"><strong data-countdown="seconds">00</strong><span>seg</span></span>
       </div>
+      <div class="anniversary-controls anniversary-controls--home" data-anniversary-controls hidden></div>
     </div>
   </div>
 
@@ -179,6 +180,7 @@
         <button type="button" id="btn-enter-desk" autofocus>Sí</button>
         <button type="button" id="btn-decline-desk">No</button>
       </div>
+      <div class="anniversary-controls" data-anniversary-controls hidden></div>
     </div>
     <section class="desk-view" id="desk-view" aria-label="Escritorio" hidden>
       <div class="desk-view__scene" id="desk-scene" tabindex="0" aria-label="Explorar la imagen con el ratón, arrastrando o usando las flechas del teclado">
@@ -209,6 +211,7 @@
           <button type="button" id="btn-switch-desk">Vista desde arriba</button>
           <button type="button" id="btn-exit-desk">Salir al menú</button>
         </div>
+        <div class="anniversary-controls" data-anniversary-controls hidden></div>
       </footer>
     </section>
   </dialog>
@@ -230,6 +233,7 @@
       <button type="button" id="btn-desk-clue-next">Ver el dorso</button>
     </nav>
     <div class="desk-actions"><button type="button" id="btn-close-desk-clue" autofocus>Seguir mirando</button></div>
+    <div class="anniversary-controls" data-anniversary-controls hidden></div>
   </dialog>
 
   <dialog class="desk-portrait-zoom desk-paper" id="desk-portrait-zoom" aria-label="Dibujo ampliado">
@@ -240,6 +244,7 @@
     <div class="desk-portrait-zoom__canvas" tabindex="0" aria-label="Imagen ampliada">
       <img id="desk-portrait-zoom-image" alt="" width="1122" height="1402">
     </div>
+    <div class="anniversary-controls" data-anniversary-controls hidden></div>
   </dialog>
 
   <dialog class="desk-diary" id="desk-diary-dialog" aria-labelledby="desk-diary-label">
@@ -319,6 +324,7 @@
       <span id="desk-diary-page-count" role="status">Hoja 1 / 8</span>
       <button id="btn-diary-next" type="button">Siguiente</button>
     </footer>
+    <div class="anniversary-controls" data-anniversary-controls hidden></div>
   </dialog>
 
   <dialog class="wall-note-dialog" id="wall-note-dialog" aria-labelledby="wall-note-title">
@@ -332,6 +338,7 @@
       <p>Y yo, Josemi, Doris, Minion... solo quiero que, cuando el tiempo pase y los recuerdos sean lo único que se pueda abrazar, encuentres en este pequeño rincón una parte de mí que nunca se haya ido.</p>
     </div>
     <footer class="wall-note-dialog__signature"><em>César</em></footer>
+    <div class="anniversary-controls" data-anniversary-controls hidden></div>
   </dialog>
 
   <section class="starry-sky" id="starry-sky" aria-hidden="true" aria-label="Cielo estrellado">
@@ -1077,13 +1084,21 @@
     src="./Entrada 1 Septiembre/in the pool.mp3"
     data-track-primary="./Entrada 1 Septiembre/in the pool.mp3"
     data-track-secondary="./Entrada 1 Septiembre/Mesora di sole.mp3"></audio>
+  <template id="anniversary-controls-template">
+    <button class="anniversary-controls__button" type="button" data-anniversary-toggle>Reanudar canción</button>
+    <button class="anniversary-controls__button" type="button" data-anniversary-volume aria-expanded="false">Volumen · 55%</button>
+    <div class="anniversary-controls__volume" data-anniversary-panel hidden>
+      <label>Volumen <output>55%</output></label>
+      <input type="range" min="0" max="100" step="1" value="55" aria-label="Volumen de la música del escritorio">
+    </div>
+  </template>
   <audio
     id="anniversary-audio"
     loop
     preload="none"
     src="./Entrada Aniversario/Tony Anderson - Butterflies (Piano Sonata) - Tony Anderson.mp3"></audio>
   <script src="./supabase-config.js"></script>
-  <script src="./script.js?v=20261024-responsive"></script>
+  <script src="./script.js?v=20261024-music-controls"></script>
   <script src="./desk-view.js?v=20261024-paper-drawings"></script>
   <script src="./navigation-ui.js"></script>
 </body>

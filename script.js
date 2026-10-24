@@ -145,7 +145,7 @@ anniversaryControls.forEach((controls, index) => {
   });
 });
 
-// Keep controls inside each native dialog so they remain usable above its backdrop.
+// Collapse the volume slider when leaving an overlay.
 document.querySelectorAll("dialog").forEach((dialog) => {
   dialog.addEventListener("close", closeAnniversaryVolumePanels);
 });

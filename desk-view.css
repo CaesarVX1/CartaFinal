@@ -378,12 +378,6 @@
 }
 .anniversary-controls__volume label { display: flex; justify-content: space-between; font: 500 0.75rem "Manrope", sans-serif; }
 .anniversary-controls__volume input { width: 100%; min-width: 0; height: 32px; margin: 0; accent-color: #ae8251; cursor: pointer; touch-action: pan-y; }
-.anniversary-controls--home { margin-top: 1.5rem; }
-.wall-note-dialog .anniversary-controls { color: #32352d; }
-.desk-paper .anniversary-controls { color: #5e4028; }
-.wall-note-dialog .anniversary-controls__button, .desk-paper .anniversary-controls__button { background: #5c422011; border-color: #5c422059; }
-.desk-diary[open] { grid-template-rows: auto minmax(0, 1fr) auto auto; }
-.desk-clue-dialog > .anniversary-controls { margin-top: 0; }
 
 .desk-diary {
   width: min(47rem, calc(100vw - 2rem));

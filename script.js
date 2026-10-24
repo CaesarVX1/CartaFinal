@@ -1558,9 +1558,12 @@ if (welcomeMenu) {
       return;
     }
 
+    if (activeCard.classList.contains("is-closing")) return;
+    activeCard.querySelectorAll("button").forEach((button) => { button.disabled = true; });
     activeCard.classList.add("is-closing");
 
     window.setTimeout(() => {
+      if (!activeCard.isConnected || cyberActiveWarningThreshold !== threshold) return;
       finishResume();
     }, 420);
   }
@@ -1578,6 +1581,9 @@ if (welcomeMenu) {
 
     const card = document.createElement("div");
     card.className = `cyber-warning-card cyber-warning-card--${warning.position}`;
+    card.setAttribute("role", "alertdialog");
+    card.setAttribute("aria-labelledby", "cyber-warning-title");
+    card.setAttribute("aria-describedby", "cyber-warning-body");
 
     if (warning.position === "center-stage") {
       card.style.setProperty("--warning-x", "-50%");
@@ -1592,10 +1598,12 @@ if (welcomeMenu) {
     tag.textContent = `${warning.threshold}%`;
 
     const title = document.createElement("h3");
+    title.id = "cyber-warning-title";
     title.className = "cyber-warning-card__title";
     title.textContent = warning.title;
 
     const body = document.createElement("p");
+    body.id = "cyber-warning-body";
     body.className = "cyber-warning-card__body";
     body.textContent = warning.body;
 
@@ -1703,6 +1711,7 @@ if (welcomeMenu) {
 
     const startButton = cyberTerminalStream.querySelector('[data-cyber-action="start-journey"]');
     const disconnectButton = cyberTerminalStream.querySelector('[data-cyber-action="disconnect"]');
+    cyberTerminalStream.scrollTop = 0;
 
     startButton?.addEventListener("click", () => {
       showCyberJourneySequence();
@@ -1803,6 +1812,8 @@ if (welcomeMenu) {
     cyberJourneyVideo.pause();
     cyberJourneyVideo.currentTime = 0;
   }
+
+  document.querySelector("#btn-close-cyber-video")?.addEventListener("click", hideCyberJourneyVideo);
 
   function showCyberArrivalScreen() {
     if (!cyberArrivalScreen) {

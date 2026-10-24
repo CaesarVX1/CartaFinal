@@ -116,6 +116,12 @@
   left: 22%; top: 26%; width: 19%; height: 39%;
   clip-path: polygon(21% 0, 100% 10%, 76% 100%, 0 80%);
 }
+.desk-clue--diary {
+  z-index: 3;
+  left: 74%; top: 46%; width: 26%; height: 48%;
+  clip-path: polygon(9% 13%, 72% 0, 100% 81%, 33% 100%, 0 29%);
+}
+.desk-clue-progress { margin: 0; color: #d3b38b; font-size: 0.75rem; line-height: 1.6; }
 .desk-clue.is-discovered { animation: deskClueReveal 1.4s ease-out; }
 @keyframes deskClueReveal {
   0%, 100% { background: transparent; }
@@ -166,6 +172,138 @@
 }
 .desk-clue-dialog > :not(.desk-clue-dialog__text) { flex-shrink: 0; }
 .desk-clue-dialog :focus-visible { outline: 2px solid #e2b87b; outline-offset: 3px; }
+.desk-clue-dialog--illustrated { width: min(60rem, calc(100% - 2rem)); }
+.desk-clue-dialog--illustrated .desk-clue-dialog__text {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.2rem, 3vw, 2.5rem);
+  align-items: center;
+}
+.desk-portrait {
+  display: block;
+  min-width: 0;
+  padding: 0.4rem;
+  border: 1px solid #72512e35;
+  border-radius: 2px 5px 2px 6px;
+  background: #a6824930;
+  color: #5c4028;
+  cursor: zoom-in;
+  font: inherit;
+  text-align: center;
+  transform: rotate(-0.7deg);
+  box-shadow: 1px 3px 8px #50311726;
+}
+.desk-portrait img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: clamp(10rem, calc(var(--viewport-height, 100dvh) - 24rem), 32rem);
+  margin-inline: auto;
+  object-fit: contain;
+  filter: sepia(0.15) saturate(0.85) contrast(0.95);
+  border-radius: 2px 5px 4px 2px;
+}
+.desk-portrait span { display: block; padding: 0.55rem 0.3rem 0.2rem; font-size: 0.7rem; letter-spacing: 0.06em; }
+.desk-portrait:hover { border-color: #72512e99; }
+.desk-portrait-zoom {
+  width: min(84rem, calc(100vw - 1rem));
+  height: calc(var(--viewport-height, 100dvh) - 1rem);
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: clamp(0.65rem, 2vw, 1.2rem);
+  border: 1px solid #8b7252;
+  border-radius: 4px;
+  background: #100e0d;
+  color: #f3e9d9;
+  overflow: hidden;
+}
+.desk-portrait-zoom[open] { display: flex; flex-direction: column; gap: 0.7rem; animation: deskPanelAppear 350ms ease-out both; }
+.desk-portrait-zoom::backdrop { background: #030202eb; }
+.desk-portrait-zoom__header { flex: 0 0 auto; justify-content: space-between; align-items: center; }
+.desk-portrait-zoom__header p { margin: 0; font: 500 clamp(1.2rem, 4vw, 1.8rem) "Cormorant Garamond", serif; }
+.desk-portrait-zoom__canvas { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; text-align: center; }
+.desk-portrait-zoom__canvas img { display: block; width: min(100%, 52rem); height: auto; margin: 0 auto; }
+.desk-portrait-zoom :focus-visible { outline: 2px solid #e2b87b; outline-offset: -3px; }
+.desk-paper {
+  isolation: isolate;
+  border: 1px solid #8c693f;
+  border-radius: 7px 3px 10px 4px / 4px 9px 5px 8px;
+  color: #3e2c1d;
+  background:
+    radial-gradient(ellipse at 0 0, #71502d66, transparent 35%),
+    radial-gradient(ellipse at 100% 100%, #79522e73, transparent 40%),
+    radial-gradient(ellipse at 88% 12%, #8d622125, transparent 22%),
+    linear-gradient(95deg, transparent 48%, #7c593419 49.8%, #fff0c72b 50.2%, transparent 52%),
+    repeating-linear-gradient(3deg, #51371606 0 1px, transparent 1px 4px),
+    linear-gradient(115deg, #ccb084, #e0c79e 48%, #cbb084);
+  box-shadow: inset 0 0 22px #6a411c4a, inset 0 0 2px 2px #6c4b2b59, 0 20px 70px #0009;
+}
+.desk-paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.23;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23846b4a' filter='url(%23grain)' opacity='.55' d='M0 0h180v180H0z'/%3E%3C/svg%3E");
+}
+.desk-paper .desk-prompt__eyebrow { color: #705033; letter-spacing: 0.15em; }
+.desk-paper h2 { color: #4b301c; text-shadow: 0 1px #f4dfb74d; }
+.desk-paper .desk-clue-dialog__text {
+  font: 500 clamp(1.2rem, 2.1vw, 1.45rem)/1.6 "Cormorant Garamond", serif;
+  scrollbar-color: #8c6b42 #d2b98b;
+  padding: 0.4rem 0.5rem 0.4rem 0.2rem;
+}
+.desk-paper .desk-clue-progress { color: #705033; }
+.desk-paper .desk-actions button {
+  border: 1px solid #70503366;
+  border-radius: 2px 5px 3px 4px;
+  background: #7d532214;
+  backdrop-filter: none;
+  color: #49301d;
+  font: 600 1.1rem "Cormorant Garamond", serif;
+  box-shadow: inset 0 0 10px #79522e12;
+}
+.desk-paper .desk-actions button:hover { background: #7d53222b; border-color: #705033; }
+.desk-paper :focus-visible { outline: 2px solid #75502c; outline-offset: -3px; }
+.desk-paper .desk-portrait span { font: 500 0.95rem "Cormorant Garamond", serif; letter-spacing: 0.02em; }
+.desk-paper .desk-portrait-zoom__canvas { scrollbar-width: thin; scrollbar-color: #8c6b42 #d2b98b; }
+.desk-paper .desk-portrait-zoom__canvas img { box-shadow: 0 4px 16px #5d3c2040; }
+@media (max-width: 600px) {
+  .desk-clue-dialog--illustrated .desk-clue-dialog__text { grid-template-columns: minmax(0, 1fr); gap: 1.2rem; }
+  .desk-portrait { width: min(100%, 22rem); margin-inline: auto; }
+  .desk-portrait img { width: 100%; max-height: none; }
+  .desk-portrait-zoom__header button { padding-inline: 0.8rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .desk-portrait-zoom[open] { animation: none; }
+}
+.desk-clue-dialog.desk-clue-dialog--bubble {
+  width: min(36rem, calc(100vw - 2rem));
+  padding: clamp(2.5rem, 8vw, 3.5rem) clamp(2.1rem, 10vw, 5rem);
+  border-radius: 48% 52% 49% 51% / 43% 46% 54% 57%;
+  background: radial-gradient(ellipse at 40% 25%, #403022, #231a14 70%);
+  text-align: center;
+  border-color: #af875b;
+  box-shadow: 0 18px 70px #0009, inset 0 0 28px #e4b5770c;
+}
+.desk-clue-dialog--bubble[open] { gap: 1rem; }
+.desk-clue-dialog--bubble > .desk-prompt__eyebrow { display: none; }
+.desk-clue-dialog--bubble h2 {
+  font-size: clamp(1.4rem, 4.8vw, 2rem);
+  line-height: 1.2;
+  color: #f1d8b5;
+}
+.desk-clue-dialog--bubble .desk-clue-dialog__text { font-size: clamp(0.8rem, 2.5vw, 0.9rem); line-height: 1.75; }
+.desk-clue-dialog--bubble::backdrop { background: #05040373; }
+@media (max-height: 450px) {
+  .desk-clue-dialog.desk-clue-dialog--bubble { padding: 1.5rem 3.5rem; border-radius: 45% / 35%; }
+  .desk-clue-dialog--bubble[open] { gap: 0.5rem; }
+}
 #welcome-menu.is-desk-transition *, #welcome-menu.is-desk-transition *::before,
 #welcome-menu.is-desk-transition *::after { animation-play-state: paused !important; }
 #welcome-menu.is-desk-transition .welcome-menu__wall-hole {
@@ -186,18 +324,130 @@
   text-shadow: 0 2px 15px #000;
 }
 .desk-view__caption h2 { margin: 0.5rem 0; }
+.desk-view__caption .desk-view__progress {
+  margin: 0.6rem 0 0;
+  max-width: 32rem;
+  color: #eadac2;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
 .desk-view__footer {
   position: absolute;
   bottom: max(1.5rem, env(safe-area-inset-bottom));
   left: 1rem;
   right: 1rem;
   text-align: center;
+  pointer-events: none;
 }
+.desk-view__footer button { pointer-events: auto; }
 .desk-view__footer > p { font-size: 0.75rem; color: #e8d7c2; text-shadow: 0 2px 5px #000; }
+
+.desk-diary {
+  width: min(47rem, calc(100vw - 2rem));
+  height: min(50rem, calc(100vh - 2rem));
+  height: min(50rem, calc(100dvh - 2rem));
+  max-width: none;
+  max-height: none;
+  margin: auto;
+  padding: clamp(0.65rem, 2vw, 1.1rem);
+  border: 1px solid #775337;
+  border-radius: 9px 15px 15px 9px;
+  background: repeating-linear-gradient(94deg, #ffffff02 0 1px, transparent 1px 4px),
+    linear-gradient(105deg, #1b110d, #50321e 5%, #352014 16%, #28180f 95%, #523722);
+  color: #e7d2ae;
+  overflow: hidden;
+  box-shadow: 0 40px 120px #000b, inset 0 0 0 4px #20140f;
+}
+.desk-diary[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 0.5rem;
+  animation: deskPanelAppear 480ms ease-out both;
+}
+.desk-diary::backdrop { background: #050302d4; }
+.desk-diary [hidden] { display: none !important; }
+.desk-diary__header { display: flex; align-items: center; justify-content: space-between; padding-left: 0.8rem; }
+.desk-diary__header p { margin: 0; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.17em; }
+.desk-diary button {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid #94764e7a;
+  border-radius: 3px;
+  padding: 0.6rem 0.9rem;
+  font: 600 0.78rem "Manrope", sans-serif;
+  color: #f2dfbc;
+  background: #25170fc9;
+  cursor: pointer;
+  transition: background 200ms;
+}
+.desk-diary button:hover { background: #624128; }
+.desk-diary button:disabled { opacity: 0.4; cursor: default; }
+.desk-diary__header button { padding: 0; font-size: 1.6rem; border-color: transparent; background: transparent; }
+.desk-diary__binding { min-height: 0; padding: 3px 5px 5px 10px; perspective: 1600px; }
+.desk-diary__leaf {
+  position: relative;
+  height: 100%;
+  padding: clamp(1rem, 4vw, 2.6rem) clamp(0.8rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) clamp(1.5rem, 5vw, 3.2rem);
+  transform-origin: left center;
+  border: 1px solid #ad8a57;
+  border-radius: 1px 5px 4px 2px;
+  color: #382719;
+  background: linear-gradient(90deg, #8c653b55, transparent 5%, transparent 95%, #8d64333b),
+    radial-gradient(ellipse at 83% 10%, #fff6d82e, transparent 65%),
+    radial-gradient(ellipse at 12% 97%, #91602d33, transparent 48%),
+    repeating-linear-gradient(2deg, #6b481908 0 1px, transparent 1px 5px), #dbc49b;
+  box-shadow: 2px 2px 0 #a68a5d, 4px 4px 0 #d4bc92, 6px 6px 0 #8a6c45, -5px 0 8px #0006;
+}
+.desk-diary__leaf::before {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0; left: 0.6rem;
+  width: 1px;
+  background: #77563345;
+  box-shadow: 2px 0 3px #ffedc955;
+  pointer-events: none;
+}
+.desk-diary__scroll {
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.6rem;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #8c6b42 #d2b98b;
+}
+.desk-diary__scroll h2 {
+  margin: 0 0 1.3rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid #8a67384d;
+  font: 600 clamp(1.6rem, 5vw, 2.3rem)/1.2 "Cormorant Garamond", serif;
+  color: #4b301c;
+}
+.desk-diary__scroll p { margin: 0 0 1rem; font: 500 clamp(0.88rem, 2.2vw, 0.97rem)/1.85 "Manrope", sans-serif; overflow-wrap: anywhere; }
+.desk-diary__photo { margin: 1.5rem 0 0.5rem; padding: 0.45rem; background: #eee2c7; border: 1px solid #9b805a55; box-shadow: 0 4px 12px #56371938; }
+.desk-diary__photo img { width: 100%; height: auto; }
+.desk-diary__illegible {
+  filter: blur(1.2px);
+  opacity: 0.5;
+  word-break: break-all;
+  text-shadow: 1px 1px #6d481d66;
+  user-select: none;
+}
+.desk-diary__worn-page > p:not(.desk-diary__illegible) { color: #624a32; }
+.desk-diary__navigation { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; padding-top: 0.6rem; }
+.desk-diary__navigation span { font-size: 0.7rem; font-variant-numeric: tabular-nums; text-align: center; }
+.desk-diary :focus-visible { outline: 2px solid #9d6b33; outline-offset: 2px; }
 @media (max-width: 640px) {
   .desk-view__caption { left: 1rem; }
   .desk-view__caption h2 { font-size: 1.9rem; }
   .desk-actions button { padding-inline: 1rem; }
+  .desk-view__footer > p:first-child { display: none; }
+  .desk-diary { width: calc(100vw - 1rem); height: calc(100dvh - 1rem); }
+  .desk-diary__header p { font-size: 0.6rem; letter-spacing: 0.1em; }
+  .desk-diary__navigation button { padding-inline: 0.7rem; }
 }
 @media (max-height: 450px) {
   .desk-clue-dialog { padding: 1rem 1.4rem; }
@@ -205,8 +455,12 @@
   .desk-clue-dialog > .desk-prompt__eyebrow { display: none; }
   .desk-clue-dialog h2 { font-size: 1.7rem; }
   .desk-view__caption > p, .desk-view__footer > p { display: none; }
+  .desk-view__caption > .desk-view__progress { display: block; margin: 0; font-size: 0.65rem; }
+  .desk-view__caption h2 { font-size: 1.4rem; }
   .desk-view__caption { top: 0.5rem; }
   .desk-view__footer { bottom: 0.7rem; }
+  .desk-diary__header button { min-height: 36px; }
+  .desk-diary__leaf { padding-top: 1rem; padding-bottom: 0.7rem; }
 }
 @media (prefers-reduced-motion: reduce) {
   .desk-dialog::backdrop, .desk-actions button { transition: none; }
@@ -214,4 +468,6 @@
   .desk-dialog[open] .desk-prompt, .desk-dialog[open] .desk-prompt *,
   .desk-clue-dialog[open], .desk-clue-dialog[open] > *,
   .wall-note-dialog[open], .wall-note-dialog[open] > * { animation: none; }
+  .desk-diary[open] { animation: none; }
+  .desk-diary button { transition: none; }
 }

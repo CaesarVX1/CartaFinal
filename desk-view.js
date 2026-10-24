@@ -13,9 +13,22 @@
   const portrait = document.querySelector('[data-desk-clue="portrait"]');
   const moon = document.querySelector('[data-desk-clue="moon"]');
   const clueText = document.querySelector(".desk-clue-dialog__text");
+  const portraitPreview = document.querySelector("#btn-zoom-desk-portrait");
+  const portraitImage = document.querySelector("#desk-portrait-image");
+  const portraitZoom = document.querySelector("#desk-portrait-zoom");
+  const portraitZoomImage = document.querySelector("#desk-portrait-zoom-image");
   const previousPage = document.querySelector("#btn-desk-clue-prev");
   const nextPage = document.querySelector("#btn-desk-clue-next");
   const discoveries = new Set();
+  const openedDrawings = new Set();
+  const drawingGroups = [["lotus", "throne", "moon"], ["marks", "map", "portrait"]];
+  const diaryButton = document.querySelector("#btn-desk-diary");
+  const diaryDialog = document.querySelector("#desk-diary-dialog");
+  const diaryLeaf = document.querySelector("#desk-diary-leaf");
+  const diaryScroll = document.querySelector("#desk-diary-scroll");
+  const diaryPages = [...document.querySelectorAll("[data-diary-page]")];
+  const diaryPrevious = document.querySelector("#btn-diary-prev");
+  const diaryNext = document.querySelector("#btn-diary-next");
   const clues = {
     throne: {
       title: "Un nuevo Heda",
@@ -23,6 +36,12 @@
     },
     moon: {
       title: "Un poco más cerca de la Luna",
+      image: {
+        src: "./Entrada Aniversario/Foto Luna.png",
+        alt: "Dibujo de dos chicos besándose ante la Luna sobre papel envejecido",
+        width: 1052,
+        height: 1495,
+      },
       text: "Este dibujo parece el más reciente y el más fácil de distinguir. Representa una escena entre dos personas... Pero... ¿qué es lo que hay detrás? Hay poca luz, aunque parece... ¿la Luna? ¿Será que, en ese instante, estuvieron un poco más cerca de ella?",
     },
     lotus: {
@@ -47,6 +66,12 @@
     },
     portrait: {
       title: "Un boceto distinto",
+      image: {
+        src: "./Entrada Aniversario/Foto boceto Josemi Cara.png",
+        alt: "Boceto de Josemi sonriendo en un parque",
+        width: 1122,
+        height: 1402,
+      },
       text: "Este boceto es distinto... Se distingue a un chico risueño, riendo y pasándoselo bien en un parque, sin pensar en qué pasaría mañana, con una expresión que da a entender que está disfrutando como si el tiempo estuviese parado.",
     },
   };
@@ -62,12 +87,17 @@
   let frame = 0;
   let drag = null;
   let noteRead = false;
+  let hasEnteredDesk = false;
+  let introTimer = null;
+  let introReady = false;
+  let diaryPage = 0;
+  let diaryTurning = false;
+  let diaryEpoch = 0;
   let suppressClick = false;
   let activeClue = null;
   let activeKey = null;
   let cluePage = 0;
   let pages = [];
-  let seenPages = new Set();
   let sceneSize = { width: 0, height: 0 };
   let sizes = [];
   let pan = { x: 0, y: 0 };
@@ -147,9 +177,105 @@
     layout();
   }
 
+  function groupIsRead(index) {
+    return drawingGroups[index].every((key) => discoveries.has(key));
+  }
+
+  function updateDrawingProgress() {
+    const count = drawingGroups[current].filter((key) => openedDrawings.has(key)).length;
+    const remaining = 3 - count;
+    const text = `${count === 1 ? "Dibujo" : "Dibujos"} ${count}/3 ${count === 1 ? "leído" : "leídos"}${remaining ? `. ${remaining === 1 ? "Falta 1 más" : `Faltan ${remaining} más`}.` : "."}`;
+    document.querySelector("#desk-view-progress").textContent = `${current ? "Sobre el escritorio" : "Dibujos de la pared"} · ${count}/3 leídos`;
+    const clueProgress = document.querySelector("#desk-clue-progress");
+    clueProgress.hidden = !activeKey;
+    clueProgress.textContent = text;
+    return text;
+  }
+
+  function announceDrawingProgress() {
+    const progress = updateDrawingProgress();
+    if (groupIsRead(current)) {
+      viewStatus.textContent = current
+        ? "3/3 bocetos leídos. Ya puedes abrir el diario que descansa sobre el escritorio."
+        : "3/3 dibujos leídos. La vista desde arriba está desbloqueada; puedes seguir explorando.";
+    } else {
+      viewStatus.textContent = progress;
+      if (current === 0 && !moon.hidden) viewStatus.textContent += " El dibujo del medio ya puede leerse.";
+      if (current === 1 && !portrait.hidden) viewStatus.textContent += " El boceto del chico ya puede leerse.";
+    }
+  }
+
+  function updateDiaryNavigation() {
+    diaryPrevious.disabled = diaryTurning || diaryPage === 0;
+    diaryNext.disabled = diaryTurning || diaryPage === diaryPages.length - 1;
+    document.querySelector("#desk-diary-page-count").textContent = `Hoja ${diaryPage + 1} / ${diaryPages.length}`;
+  }
+
+  function renderDiaryPage() {
+    diaryPages.forEach((page, index) => { page.hidden = index !== diaryPage; });
+    diaryScroll.scrollTop = 0;
+    diaryScroll.setAttribute("aria-label", `Hoja del diario: ${diaryPages[diaryPage].querySelector("h2").textContent}`);
+    updateDiaryNavigation();
+  }
+
+  async function turnDiaryPage(direction) {
+    const next = diaryPage + direction;
+    if (state !== "journal" || diaryTurning || next < 0 || next >= diaryPages.length) return;
+    const epoch = diaryEpoch;
+    diaryTurning = true;
+    updateDiaryNavigation();
+    await animate(diaryLeaf, [
+      { transform: "rotateY(0deg)", opacity: 1 },
+      { transform: `rotateY(${-direction * 65}deg)`, opacity: 0.15 },
+    ], 250);
+    if (epoch !== diaryEpoch || !diaryDialog.open) return;
+    diaryPage = next;
+    renderDiaryPage();
+    await animate(diaryLeaf, [
+      { transform: `rotateY(${direction * 35}deg)`, opacity: 0.2 },
+      { transform: "rotateY(0deg)", opacity: 1 },
+    ], 380);
+    if (epoch !== diaryEpoch || !diaryDialog.open) return;
+    diaryTurning = false;
+    updateDiaryNavigation();
+    diaryScroll.focus({ preventScroll: true });
+  }
+
+  diaryPrevious.addEventListener("click", () => turnDiaryPage(-1));
+  diaryNext.addEventListener("click", () => turnDiaryPage(1));
+  document.querySelector("#btn-close-diary").addEventListener("click", () => diaryDialog.close());
+  diaryDialog.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    event.preventDefault();
+    turnDiaryPage(event.key === "ArrowRight" ? 1 : -1);
+  });
+  diaryDialog.addEventListener("close", () => {
+    diaryEpoch += 1;
+    diaryLeaf.getAnimations().forEach((animation) => animation.cancel());
+    diaryTurning = false;
+    if (state === "journal") {
+      state = "viewing";
+      diaryButton.focus({ preventScroll: true });
+    }
+  });
+  diaryButton.addEventListener("click", (event) => {
+    if (state !== "viewing" || current !== 1 || (suppressClick && event.detail !== 0)) return;
+    if (!groupIsRead(0) || !groupIsRead(1)) {
+      showClue({
+        title: "El diario puede esperar…",
+        text: "El diario ahora lo miro. Estos bocetos... me recuerdan a algo, y quiero verlos antes. Todavía hay dibujos por descubrir sobre el escritorio.",
+      }, diaryButton);
+      return;
+    }
+    state = "journal";
+    target = { ...pan };
+    diaryTurning = false;
+    renderDiaryPage();
+    diaryDialog.showModal();
+  });
+
   function renderCluePage() {
     const page = pages[cluePage];
-    seenPages.add(cluePage);
     document.querySelector("#desk-clue-title").textContent = page.title;
     document.querySelector("#desk-clue-text").textContent = page.text;
     document.querySelector("#desk-clue-pages").hidden = pages.length < 2;
@@ -161,16 +287,56 @@
     animate(clueText, [{ opacity: 0, transform: "translateY(6px)" }, { opacity: 1, transform: "translateY(0)" }], 550, 100);
   }
 
-  function showClue(content, opener, key = null) {
+  function showClue(content, opener, key = null, variant = "") {
     activeClue = opener;
     activeKey = key;
+    if (key) openedDrawings.add(key);
     cluePage = 0;
     pages = content.pages || [content];
-    seenPages = new Set();
     target = { ...pan };
     state = "reading";
+    clueDialog.classList.toggle("desk-clue-dialog--bubble", variant === "bubble");
+    const illustration = content.image;
+    clueDialog.classList.toggle("desk-clue-dialog--illustrated", Boolean(illustration));
+    clueDialog.classList.toggle("desk-paper", Boolean(illustration));
+    portraitPreview.hidden = !illustration;
+    if (illustration) {
+      portraitImage.src = illustration.src;
+      portraitImage.alt = illustration.alt;
+      portraitImage.width = illustration.width;
+      portraitImage.height = illustration.height;
+      portraitPreview.setAttribute("aria-label", key === "moon" ? "Ampliar el dibujo de los chicos y la Luna" : "Ampliar el boceto de Josemi");
+    }
     clueDialog.showModal();
     renderCluePage();
+    updateDrawingProgress();
+  }
+
+  function clearIntroTimer() {
+    window.clearTimeout(introTimer);
+    introTimer = null;
+    introReady = false;
+  }
+
+  function showIntroIfReady() {
+    if (!introReady || hasEnteredDesk || state !== "viewing" || current !== 0 || !dialog.open) return;
+    introReady = false;
+    hasEnteredDesk = true;
+    showClue({
+      title: "Guau... ¿esto de verdad estaba detrás de aquí todo este tiempo?",
+      text: "Parece que hay alguien aquí que ha estado trabajando bastante, echemos un vistazo a los dibujos que hay en la pared primero.",
+    }, switchView, null, "bubble");
+  }
+
+  function scheduleIntro() {
+    if (hasEnteredDesk) return;
+    clearIntroTimer();
+    introTimer = window.setTimeout(() => {
+      introTimer = null;
+      introReady = true;
+      // Leave an open drawing uninterrupted; show the welcome when it closes.
+      showIntroIfReady();
+    }, 3000);
   }
 
   function unlockClues() {
@@ -200,6 +366,7 @@
   });
 
   function cleanUp() {
+    clearIntroTimer();
     session += 1;
     state = "closed";
     animations.forEach((animation) => animation.cancel());
@@ -207,7 +374,9 @@
     resetPan();
     drag = null;
     menu.classList.remove("is-desk-transition");
+    if (portraitZoom.open) portraitZoom.close();
     if (clueDialog.open) clueDialog.close();
+    if (diaryDialog.open) diaryDialog.close();
     dialog.classList.remove("is-exploring");
     view.hidden = true;
     prompt.hidden = false;
@@ -236,6 +405,7 @@
 
   async function exit() {
     if (state === "closing" || state === "closed") return;
+    clearIntroTimer();
     const wasViewing = state === "viewing";
     const token = ++session;
     state = "closing";
@@ -294,14 +464,15 @@
     ]);
     if (token !== session) return;
     state = "viewing";
-    viewStatus.textContent = "Los dibujos de la pared parecen guardar algo. Puedes tocarlos para mirar más de cerca.";
+    announceDrawingProgress();
     switchView.focus({ preventScroll: true });
     loadImage(images[1]).catch(() => {});
+    scheduleIntro();
   });
 
   switchView.addEventListener("click", async () => {
     if (state !== "viewing") return;
-    if (current === 0 && !discoveries.has("moon")) {
+    if (current === 0 && !groupIsRead(0)) {
       showClue({
         title: "Todavía queda algo aquí…",
         text: moon.hidden
@@ -329,6 +500,8 @@
       viewStatus.textContent = current
         ? "Algunos papeles parecen guardar algo. Puedes tocarlos para mirar más de cerca."
         : "Los dibujos de la pared parecen guardar algo. Puedes tocarlos para mirar más de cerca.";
+      updateDrawingProgress();
+      if (groupIsRead(current)) announceDrawingProgress();
       await animate(scene, [{ opacity: 0, transform: "scale(1.025)" }, { opacity: 1, transform: "scale(1)" }], 340);
     } catch {
       if (token === session) viewStatus.textContent = "No se ha podido cargar esta vista. Vuelve a intentarlo.";
@@ -336,6 +509,7 @@
     if (token !== session) return;
     state = "viewing";
     switchView.disabled = false;
+    showIntroIfReady();
   });
 
   scene.addEventListener("pointerdown", (event) => {
@@ -369,9 +543,9 @@
     const [x, y] = directions[event.key];
     move(target.x + x, target.y + y);
   });
-  clueButtons.forEach((button) => {
+  [...clueButtons, diaryButton].forEach((button) => {
     button.addEventListener("pointerenter", () => { target = { ...pan }; });
-    button.addEventListener("click", (event) => {
+    if (button !== diaryButton) button.addEventListener("click", (event) => {
       if (state !== "viewing" || button.closest(".desk-view__layer") !== layers[current] || (suppressClick && event.detail !== 0)) return;
       const key = button.dataset.deskClue;
       if (key === "portrait" && !(discoveries.has("marks") && discoveries.has("map"))) return;
@@ -386,15 +560,33 @@
       move(-x / size.x, -y / size.y);
     });
   });
+  portraitPreview.addEventListener("click", () => {
+    const illustration = clues[activeKey]?.image;
+    if (state !== "reading" || !illustration || portraitZoom.open) return;
+    portraitZoomImage.src = illustration.src;
+    portraitZoomImage.alt = illustration.alt;
+    portraitZoomImage.width = illustration.width;
+    portraitZoomImage.height = illustration.height;
+    portraitZoom.setAttribute("aria-label", `${clues[activeKey].title}: dibujo ampliado`);
+    portraitZoom.querySelector(".desk-portrait-zoom__header p").textContent = clues[activeKey].title;
+    portraitZoom.showModal();
+    portraitZoom.querySelector(".desk-portrait-zoom__canvas").scrollTop = 0;
+  });
+  document.querySelector("#btn-close-desk-portrait").addEventListener("click", () => portraitZoom.close());
+  portraitZoom.addEventListener("close", () => {
+    if (clueDialog.open && state === "reading") portraitPreview.focus({ preventScroll: true });
+  });
   document.querySelector("#btn-close-desk-clue").addEventListener("click", () => clueDialog.close());
   clueDialog.addEventListener("close", () => {
+    if (portraitZoom.open) portraitZoom.close();
     if (state !== "reading") return;
-    // A multi-page clue is complete only after visiting every page and closing it.
-    if (activeKey && seenPages.size === pages.length) discoveries.add(activeKey);
+    // The lotus reverse is an optional clue, not a requirement for the next drawing.
+    if (activeKey) discoveries.add(activeKey);
     state = "viewing";
     unlockClues();
-    if (activeKey === "moon") viewStatus.textContent = "Quizá sea el momento de mirar el escritorio desde arriba.";
+    if (activeKey) announceDrawingProgress();
     activeClue?.focus({ preventScroll: true });
+    window.requestAnimationFrame(showIntroIfReady);
   });
   new ResizeObserver(() => { if (!view.hidden) layout(); }).observe(scene);
 })();

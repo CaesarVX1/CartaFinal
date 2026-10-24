@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
   <title>Hola Josemi</title>
   <meta
     name="description"
@@ -15,7 +15,8 @@
     rel="stylesheet"
   >
   <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./desk-view.css">
+  <link rel="stylesheet" href="./desk-view.css?v=20261024-paper-drawings">
+  <link rel="stylesheet" href="./responsive-ui.css">
 </head>
 <body>
   <div id="welcome-menu" aria-label="Pantalla de bienvenida">
@@ -192,12 +193,14 @@
           <button class="desk-clue desk-clue--marks" type="button" data-desk-clue="marks" aria-label="Examinar las líneas tachadas" aria-haspopup="dialog"></button>
           <button class="desk-clue desk-clue--map" type="button" data-desk-clue="map" aria-label="Examinar el mapa antiguo" aria-haspopup="dialog"></button>
           <button class="desk-clue desk-clue--portrait" type="button" data-desk-clue="portrait" aria-label="Examinar el boceto del chico" aria-haspopup="dialog" hidden></button>
+          <button class="desk-clue desk-clue--diary" id="btn-desk-diary" type="button" aria-label="Abrir el diario antiguo" aria-haspopup="dialog" aria-controls="desk-diary-dialog"></button>
         </div>
       </div>
       <div class="desk-view__shade" aria-hidden="true"></div>
       <header class="desk-view__caption">
         <p>Al otro lado</p>
         <h2 id="desk-view-title" aria-live="polite">Vista desde abajo</h2>
+        <p class="desk-view__progress" id="desk-view-progress" role="status">Dibujos de la pared · 0/3 leídos</p>
       </header>
       <footer class="desk-view__footer">
         <p>Mueve el ratón o arrastra para mirar a tu alrededor.</p>
@@ -213,13 +216,109 @@
   <dialog class="desk-clue-dialog" id="desk-clue-dialog" aria-labelledby="desk-clue-title">
     <p class="desk-prompt__eyebrow">Entre papeles y recuerdos</p>
     <h2 id="desk-clue-title"></h2>
-    <div class="desk-clue-dialog__text" tabindex="0" aria-live="polite"><p id="desk-clue-text"></p></div>
+    <div class="desk-clue-dialog__text" tabindex="0" aria-live="polite">
+      <button class="desk-portrait" id="btn-zoom-desk-portrait" type="button" aria-label="Ampliar el dibujo" aria-haspopup="dialog" hidden>
+        <img id="desk-portrait-image" alt="" width="1122" height="1402">
+        <span>Pulsa para ampliar</span>
+      </button>
+      <p id="desk-clue-text"></p>
+    </div>
+    <p class="desk-clue-progress" id="desk-clue-progress" role="status" hidden></p>
     <nav class="desk-actions desk-clue-pages" id="desk-clue-pages" aria-label="Páginas del dibujo" hidden>
       <button type="button" id="btn-desk-clue-prev">Anterior</button>
       <span id="desk-clue-page-count" aria-live="polite"></span>
       <button type="button" id="btn-desk-clue-next">Ver el dorso</button>
     </nav>
     <div class="desk-actions"><button type="button" id="btn-close-desk-clue" autofocus>Seguir mirando</button></div>
+  </dialog>
+
+  <dialog class="desk-portrait-zoom desk-paper" id="desk-portrait-zoom" aria-label="Dibujo ampliado">
+    <header class="desk-portrait-zoom__header desk-actions">
+      <p>El dibujo, de cerca</p>
+      <button type="button" id="btn-close-desk-portrait" autofocus>Cerrar ampliación</button>
+    </header>
+    <div class="desk-portrait-zoom__canvas" tabindex="0" aria-label="Imagen ampliada">
+      <img id="desk-portrait-zoom-image" alt="" width="1122" height="1402">
+    </div>
+  </dialog>
+
+  <dialog class="desk-diary" id="desk-diary-dialog" aria-labelledby="desk-diary-label">
+    <header class="desk-diary__header">
+      <p id="desk-diary-label">Fragmentos de un diario</p>
+      <button id="btn-close-diary" type="button" aria-label="Cerrar el diario" autofocus>&times;</button>
+    </header>
+    <div class="desk-diary__binding">
+      <div class="desk-diary__leaf" id="desk-diary-leaf">
+        <div class="desk-diary__scroll" id="desk-diary-scroll" tabindex="0" aria-label="Texto de la hoja del diario">
+          <article data-diary-page>
+            <h2>26.08.2026 - 2:49 AM</h2>
+            <p>Hoy he tenido una idea, es algo que nunca he hecho, y tampoco sé si podré compaginar correctamente ni cuanto tardaré, pero espero que quede como pienso. Voy a necesitar cuero, papel... y mucha paciencia. Mañana empezaré a buscar cómo conseguir cuero para simular una portada antigua</p>
+            <p>¿Este diario realmente valdrá la pena? ¿Me quedará tal y como pienso? ¿Y si no...?</p>
+            <p>Bueno... basta de dudas, si voy a pasarme el tiempo sobre pensando en todo esto, no voy a poder disfrutar de cómo lo voy haciendo. Sólo espero que le guste</p>
+          </article>
+          <article data-diary-page hidden>
+            <h2>13.09.2026 - 1:58 AM</h2>
+            <p>Últimamente me está costando más poder dedicarle tiempo, he conseguido el cuero y hacer la portada, las hojas las tendré preparadas de aquí a unos días, pero hay algo que... no sé explicar</p>
+            <p>Ayer fue un día importante para una persona, intenté estar presente, pero empezó a darme un gran dolor de cabeza, sentía que me iba a explotar y tuve que dejar el móvil a un lado... no quiero que piense que me estoy alejando, pero me está costando hasta dormir</p>
+            <p>Pronto iré al médico, a ver qué me dicen</p>
+            <p>Mientras... intentaré ver cómo voy progresando, no sé ni de dónde voy a sacar tiempo... trabajando de 8 a 6, y luego trabajar de 8 a 2, de 2 a 3 conducir, y de 3 a 9 clases... bueno. Me las ingeniaré</p>
+          </article>
+          <article data-diary-page hidden>
+            <h2>24.09.2026 - 23:41</h2>
+            <p>Ha pasado una semana y algo desde que empecé a tener apenas tiempo en el día, hoy hice videollamada con él. Me sigue gustando ver su sonrisa y sus ojos, o la forma tan tonta que tiene para decir algunas cosas... no puedo esperar al día en que le de este regalo, por desgracia algo ha visto, espero que no sepa lo que es:</p>
+            <p>Tengo ganas de volver a hacer videollamada con él, es un momento en el día en el que desconecto y disfruto</p>
+          </article>
+          <article data-diary-page hidden>
+            <h2>30.09.2026 - 4:48 AM</h2>
+            <p>Me acabo de desvelar porque últimamente me está costando dormir, tengo muchas cosas en la cabeza y en unas horas empiezo a trabajar... Últimamente estoy notando un poco más de distancia por su parte, no sé qué pensar. Encima el diario se me ha estropeado intentando montarlo y no me da tiempo... me jode por todo el esfuerzo que le había puesto, pero voy a tener que pedir alguno por Internet y no es lo mismo.</p>
+            <p>¿Será que le gustará? ¿Y si no...? ¿Debería de dejar de hacerlo?</p>
+            <p>Últimamente no logro descansar, y tengo la cabeza a reventar, tengo que dejar el trabajo pronto.</p>
+            <p>¿Debería de hablar con él? ¿Y si lo hago mal? ¿Me estoy precipitando?</p>
+            <p>Qué agobio... voy a volver a descansar y veré qué hago...</p>
+            <p>Es un chico que me importa y quiero esforzarme por hacer todo lo mejor posible con él. Sé que no soy perfecto, que nunca he estado en este mundo y que voy a cometer errores, y hay veces que me gustaría preguntar "¿Hay algo más?" o buscar respuestas a preguntas que genera mi cabeza en plena ansiedad...</p>
+            <p>Tengo que gestionarme, mañana lo veré con más calma, estoy pensando desde el cansancio y no veo nada claro</p>
+            <p>Quisiera verlo pronto, sé que él lo ve como "Va a echar 1-2 horas de viaje para estar un ratito conmigo y no quiero que haga eso, prefiero que haya un día en el que pueda dedicarle un poco más",</p>
+            <p>Si él supiera que me guardé todos mis días de vacaciones para poder ir a verlo... 1h en coche para ir no es nada, y más si es para desconectar un ratito con él.</p>
+          </article>
+          <article data-diary-page hidden>
+            <h2>12.10.2026 ??-??</h2>
+            <p>Definitivamente me precipité, le he hecho daño y lo noto muy distante... no sé si quiero preguntarle por si lo agobio, estos días están siendo difíciles, los dolores de cabeza me han ido aumentando más últimamente, y he tenido que ir a urgencias varias veces por otras cosas... bueno</p>
+            <p>Espero que esté bien, ya tengo la idea en la cabeza de vuelta, tengo el diario, aunque no me gusta cómo se ve, y es de un solo intento, no puedo borrar porque si no las páginas se rompen o pierden el color... tiene que ser una traza al primer intento, espero que me salga bien.</p>
+          </article>
+          <article data-diary-page hidden>
+            <h2>24.10.2026 - 3:22 AM</h2>
+            <p>Me he puesto a hacerle esta página, dentro de unos días habrá pasado 1 año desde que di el paso a hablar con él... Al inicio, tenía mucho miedo y no sabía si realmente quería hacerlo.</p>
+            <p>¿Le devuelvo el like? ¿Será cómo el resto? ¿Estoy realmente preparado o con ganas de hablar con alguien después de todo por lo que he pasado?</p>
+            <p>A más veía sus fotos... dije "Algo me echa para atrás, pero tiene algo a simple vista que el resto no..., vamos a ver qué pasa si hacemos match"</p>
+            <p>Como sea, esta página me ha llevado bastantes horas, intento hacerlo lo mejor posible, puede que sea muy perfeccionista, pero me hace ilusión y a él, en el fondo, le gusta, no sé qué opinará de la web en general...</p>
+            <p>¿Me estoy pasando? No creo... bueno, voy a seguir, todavía me falta poner la foto que le tomé la cuál le hice un boceto</p>
+            <p>A fin de cuentas él me dijo "Si quieres tomarme una foto adelante", y no sabe nada de esto, pero capturé realmente su esencia, estaba tan mono...</p>
+          </article>
+          <article data-diary-page hidden>
+            <h2>6.11.2025 ??-??</h2>
+            <p>Llevo ya unas semanas hablando con él, el chico realmente es muy mono, pero no sé si voy a poder abrirme con él, al menos por ahora, tomé la iniciativa sin darme cuenta de ir dándole los buenos días y las buenas noches, lo voy conociendo poco a poco, y tiene algo que realmente me llama la atención. No sé en qué momento he pasado de hablar con él sin esperar nada a empezar a esperar tener un ratito con el que hablar con él</p>
+            <p>Encima pronto es su cumpleaños, tengo la corazonada, tendré que preguntarle</p>
+            <p>Pero me quedo con los gestos tan bonitos que tiene, aunque me resulta increíble que no haya tenido pareja en su vida... sé que no estoy para hablar, pero es un chico de 10.</p>
+            <p>Me acaba de escribir, hace un rato, mañana le responderé, no quiero quitarle el sueño, y mañana tiene que madrugar para ir al cole. Quién sabe, compartimos también algún que otro gusto.</p>
+            <figure class="desk-diary__photo">
+              <img src="./Entrada Aniversario/Chat 6 Noviembre.jpg" alt="Conversación del 6 de noviembre." loading="lazy" decoding="async">
+            </figure>
+          </article>
+          <article class="desk-diary__worn-page" data-diary-page hidden>
+            <h2>??.??.?? - ??</h2>
+            <p class="desk-diary__illegible" aria-label="Escritura desgastada e ilegible">!·)(/$)"·$^*Ñ*¨^¨*!·"$))!=·%(!·/%) §xæ¿? ¬!$%&amp;/()= ñøþ·$!·//ª«»^¨¨! %$#@!·)(=¿? Z̷̢̛̖̩̰̫͎̓̓͝æ̸̡̨̛̩̜̹̓̓·$%&amp;/! !·x̸̛̙͎̫̓̕q̷̢͚̟̓̈́̕¨^Ñ¨^¨!·"$)) ⸸//%$!·)(/¤¿¡ §þæøñ·!%$#=)(/&amp; «»¬!$%&amp;/()=?¿ ¡!·/%)=§#@!~^¨* N̸̢̛̩̫͎̓͝ø̷̨̛̜̹̓̓·%$!·)(/)&amp;% !·)(/$)"·$^*Ñ*¨^¨*!·"$))!=·%(!·/%) §!¤×÷±≈≠¿?·//æþø§!·)(=)&amp;$%# *¨^¨*!·"$))!!·//%$#@¿¡ ñ̷̢̛̩̫͎̓͝æ̸̡̨̛̩̜̹̓̓</p>
+            <p>Esta página está muy borrosa, está muy desgastada y parece propensa a desintegrarse en mis manos, como sea, cualquier cosa a partir de aquí es bastante ilegible.</p>
+            <p>¿Quién es la persona que ha escrito esto? ¿Por qué están estos dibujos aquí?</p>
+            <p>Lo único claro es que es un chico con sentimientos y parece guardárselos...</p>
+          </article>
+        </div>
+      </div>
+    </div>
+    <footer class="desk-diary__navigation">
+      <button id="btn-diary-prev" type="button">Anterior</button>
+      <span id="desk-diary-page-count" role="status">Hoja 1 / 8</span>
+      <button id="btn-diary-next" type="button">Siguiente</button>
+    </footer>
   </dialog>
 
   <dialog class="wall-note-dialog" id="wall-note-dialog" aria-labelledby="wall-note-title">
@@ -479,6 +578,7 @@
 
       <div class="cyber-warning-layer" id="cyber-warning-layer" aria-live="polite"></div>
       <div class="cyber-video-overlay" id="cyber-video-overlay" aria-hidden="true">
+          <button class="cyber-video-overlay__close" id="btn-close-cyber-video" type="button" aria-label="Cerrar vídeo y volver al terminal">Volver al terminal</button>
         <div class="cyber-video-overlay__shell">
           <video id="cyber-journey-video" playsinline preload="metadata" controls>
             <source src="./Cancion Entrada Cyberpunk/Video Net.mp4" type="video/mp4">
@@ -983,7 +1083,8 @@
     preload="none"
     src="./Entrada Aniversario/Tony Anderson - Butterflies (Piano Sonata) - Tony Anderson.mp3"></audio>
   <script src="./supabase-config.js"></script>
-  <script src="./script.js"></script>
-  <script src="./desk-view.js"></script>
+  <script src="./script.js?v=20261024-responsive"></script>
+  <script src="./desk-view.js?v=20261024-paper-drawings"></script>
+  <script src="./navigation-ui.js"></script>
 </body>
 </html>

@@ -81,10 +81,46 @@ initializeNovemberCountdown(novemberCountdown);
 const wallNoteButton = document.querySelector("#btn-wall-note");
 const wallNoteDialog = document.querySelector("#wall-note-dialog");
 const closeWallNoteButton = document.querySelector("#btn-close-wall-note");
+const anniversaryAudio = document.querySelector("#anniversary-audio");
+
+if (anniversaryAudio) {
+  anniversaryAudio.volume = 0.55;
+}
+
+function stopAnniversaryAudio() {
+  if (!anniversaryAudio) {
+    return;
+  }
+
+  anniversaryAudio.pause();
+  anniversaryAudio.currentTime = 0;
+}
+
+function startAnniversaryAudio() {
+  if (!anniversaryAudio || !anniversaryAudio.paused) {
+    return;
+  }
+
+  document.querySelectorAll("audio, video").forEach((media) => {
+    if (media !== anniversaryAudio) {
+      media.pause();
+    }
+  });
+
+  const playAttempt = anniversaryAudio.play();
+  playAttempt?.catch(() => {});
+}
+
+document.querySelectorAll("audio, video").forEach((media) => {
+  if (media !== anniversaryAudio) {
+    media.addEventListener("play", stopAnniversaryAudio);
+  }
+});
 
 wallNoteButton?.addEventListener("click", () => {
   if (wallNoteDialog && !wallNoteDialog.open) {
     wallNoteDialog.showModal();
+    startAnniversaryAudio();
   }
 });
 closeWallNoteButton?.addEventListener("click", () => wallNoteDialog?.close());
@@ -482,6 +518,7 @@ if (welcomeMenu) {
 
   letterButtons.forEach((button) => {
     button.addEventListener("click", () => {
+      stopAnniversaryAudio();
       if (button.dataset.letterTarget === "cyber") {
         triggerCyberEntry();
         return;

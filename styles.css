@@ -148,15 +148,49 @@ img {
   filter: drop-shadow(0 0 5px rgba(222, 181, 122, 0.28));
 }
 
+.welcome-menu__wall-details {
+  display: contents;
+}
+
 .welcome-menu__wall-hole {
   position: fixed;
   top: 37%;
   left: clamp(0.5rem, 7vw, 8rem);
-  z-index: 0;
+  z-index: 2;
   width: clamp(12.25rem, 29.75vw, 24.5rem);
   height: auto;
   overflow: visible;
   pointer-events: none;
+  filter: brightness(1);
+  transition: filter 0.8s ease;
+}
+
+.welcome-menu__hole-hover-area {
+  pointer-events: all;
+  cursor: pointer;
+  outline: none;
+}
+
+.welcome-menu__hole-hover-area:focus-visible {
+  outline: none;
+  stroke: #e8b578;
+  stroke-width: 2;
+  stroke-dasharray: 3 5;
+}
+
+#welcome-menu.is-hidden .welcome-menu__hole-hover-area {
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .welcome-menu__wall-hole:hover {
+    filter: brightness(1.55);
+  }
+
+  .welcome-menu__wall-hole:hover .welcome-menu__hole-rays,
+  .welcome-menu__wall-hole:hover .welcome-menu__candle-haze {
+    transform: scale(1.04, 1.15);
+  }
 }
 
 .welcome-menu__wall-hole .welcome-menu__crack-shadow {
@@ -357,6 +391,12 @@ img {
   animation-delay: -0.08s;
 }
 
+.welcome-menu__hole-rays,
+.welcome-menu__candle-haze {
+  transform-origin: 125px 120px;
+  transition: transform 1s ease;
+}
+
 .welcome-menu__candle-haze {
   animation-duration: 7.1s;
   animation-delay: -1.6s;
@@ -390,6 +430,12 @@ img {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .welcome-menu__wall-hole,
+  .welcome-menu__hole-rays,
+  .welcome-menu__candle-haze {
+    transition: none;
+  }
+
   .welcome-menu__hole-rays,
   .welcome-menu__candle-interior,
   .welcome-menu__candle-edge,
@@ -399,15 +445,27 @@ img {
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 640px), (max-width: 980px) and (max-height: 500px) {
+  .welcome-menu__wall-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 104px;
+  }
+
   .welcome-menu__wall-hole {
-    top: 16%;
-    left: 0.25rem;
+    position: relative;
+    flex: 0 0 11.375rem;
+    top: auto;
+    left: auto;
     width: 11.375rem;
     opacity: 0.75;
   }
 
   .welcome-menu__wall-note {
+    order: -1;
+    flex: 0 0 4.5rem;
     position: relative;
     top: auto;
     left: auto;
@@ -626,6 +684,19 @@ img {
   text-align: center;
   margin-block: auto;
   padding-bottom: 2rem;
+}
+
+.welcome-menu__discovery {
+  width: min(100%, 26rem);
+  min-height: 3.4em;
+  margin: -0.35rem 0 0;
+  color: rgba(217, 196, 166, 0.75);
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(0.74rem, 1.5vw, 0.85rem);
+  line-height: 1.7;
+  text-align: center;
+  text-wrap: balance;
+  pointer-events: none;
 }
 
 .welcome-menu__eyebrow {

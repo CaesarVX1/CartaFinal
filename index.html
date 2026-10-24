@@ -15,6 +15,7 @@
     rel="stylesheet"
   >
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./desk-view.css">
 </head>
 <body>
   <div id="welcome-menu" aria-label="Pantalla de bienvenida">
@@ -26,7 +27,9 @@
       <use href="#menu-wall-fracture" class="welcome-menu__crack-edge" />
       <use href="#menu-wall-fracture" class="welcome-menu__crack-light" />
     </svg>
-    <svg class="welcome-menu__wall-hole" viewBox="0 0 420 240" fill="none" aria-hidden="true" focusable="false">
+    <div class="welcome-menu__inner">
+    <div class="welcome-menu__wall-details">
+    <svg class="welcome-menu__wall-hole" viewBox="0 0 420 240" fill="none">
       <defs>
         <radialGradient id="menu-hole-depth" cx="42%" cy="35%" r="70%">
           <stop offset="0" stop-color="#010102" />
@@ -79,8 +82,8 @@
       </g>
       <path class="welcome-menu__candle-edge" d="m133 96 15 1 5 18 -9 17 -5 15 -18 8" />
       <path class="welcome-menu__hole-chips" d="m77 90 8 -8 5 12Zm78 62 10 -8 -1 15Zm-67 13 7 -5 3 11Z" />
+      <circle class="welcome-menu__hole-hover-area" id="btn-wall-hole" cx="118" cy="119" r="54" fill="transparent" role="button" tabindex="0" aria-label="Mirar por el agujero de la pared" aria-haspopup="dialog" aria-controls="desk-dialog" />
     </svg>
-    <div class="welcome-menu__inner">
     <button class="welcome-menu__wall-note" id="btn-wall-note" type="button" aria-label="Leer la nota de la pared" aria-haspopup="dialog" aria-controls="wall-note-dialog">
     <svg viewBox="0 0 180 220" fill="none" aria-hidden="true" focusable="false">
       <path class="welcome-menu__note-shadow" d="m28 35 124 -1 -1 160 -123 2Z" />
@@ -93,6 +96,7 @@
       <path class="welcome-menu__note-tape-line" d="m68 24 38 1 M67 40l38 1" />
     </svg>
     </button>
+    </div>
       <p class="welcome-menu__eyebrow">
         Selecciona una
         <button
@@ -102,6 +106,8 @@
           aria-label="Entrada"
         >entrada</button>
       </p>
+
+      <p class="welcome-menu__discovery" id="menu-discovery-message">Esto no estaba así antes… Hay una nota en la pared. Y ese agujero…</p>
 
       <div class="welcome-menu__actions">
         <button class="welcome-menu__option" type="button" data-letter-target="original">
@@ -163,15 +169,70 @@
     </div>
   </div>
 
+  <dialog class="desk-dialog" id="desk-dialog" aria-label="Un vistazo al escritorio">
+    <div class="desk-prompt" id="desk-prompt">
+      <p class="desk-prompt__eyebrow">Al otro lado de la pared</p>
+      <h2 id="desk-prompt-title">Se puede ver un escritorio... ¿quieres echar un vistazo?</h2>
+      <p id="desk-load-status" role="status"></p>
+      <div class="desk-actions">
+        <button type="button" id="btn-enter-desk" autofocus>Sí</button>
+        <button type="button" id="btn-decline-desk">No</button>
+      </div>
+    </div>
+    <section class="desk-view" id="desk-view" aria-label="Escritorio" hidden>
+      <div class="desk-view__scene" id="desk-scene" tabindex="0" aria-label="Explorar la imagen con el ratón, arrastrando o usando las flechas del teclado">
+        <div class="desk-view__layer" id="desk-layer-below">
+          <img class="desk-view__image" id="desk-image-below" data-src="./Entrada Aniversario/Escritorio desde abajo.png" alt="Escritorio iluminado por una lámpara cálida, con dibujos y notas en la pared." draggable="false">
+          <button class="desk-clue desk-clue--lotus" type="button" data-desk-clue="lotus" aria-label="Examinar la flor de loto" aria-haspopup="dialog"></button>
+          <button class="desk-clue desk-clue--throne" type="button" data-desk-clue="throne" aria-label="Examinar el dibujo del trono" aria-haspopup="dialog"></button>
+          <button class="desk-clue desk-clue--moon" type="button" data-desk-clue="moon" aria-label="Examinar el dibujo de los dos chicos" aria-haspopup="dialog" hidden></button>
+        </div>
+        <div class="desk-view__layer" id="desk-layer-above" hidden>
+          <img class="desk-view__image" id="desk-image-above" data-src="./Entrada Aniversario/Escritorio Desde Arriba.png" alt="Vista desde arriba del escritorio con dibujos, cartas, mapas y un cuaderno." draggable="false">
+          <button class="desk-clue desk-clue--marks" type="button" data-desk-clue="marks" aria-label="Examinar las líneas tachadas" aria-haspopup="dialog"></button>
+          <button class="desk-clue desk-clue--map" type="button" data-desk-clue="map" aria-label="Examinar el mapa antiguo" aria-haspopup="dialog"></button>
+          <button class="desk-clue desk-clue--portrait" type="button" data-desk-clue="portrait" aria-label="Examinar el boceto del chico" aria-haspopup="dialog" hidden></button>
+        </div>
+      </div>
+      <div class="desk-view__shade" aria-hidden="true"></div>
+      <header class="desk-view__caption">
+        <p>Al otro lado</p>
+        <h2 id="desk-view-title" aria-live="polite">Vista desde abajo</h2>
+      </header>
+      <footer class="desk-view__footer">
+        <p>Mueve el ratón o arrastra para mirar a tu alrededor.</p>
+        <p id="desk-view-status" role="status"></p>
+        <div class="desk-actions">
+          <button type="button" id="btn-switch-desk">Vista desde arriba</button>
+          <button type="button" id="btn-exit-desk">Salir al menú</button>
+        </div>
+      </footer>
+    </section>
+  </dialog>
+
+  <dialog class="desk-clue-dialog" id="desk-clue-dialog" aria-labelledby="desk-clue-title">
+    <p class="desk-prompt__eyebrow">Entre papeles y recuerdos</p>
+    <h2 id="desk-clue-title"></h2>
+    <div class="desk-clue-dialog__text" tabindex="0" aria-live="polite"><p id="desk-clue-text"></p></div>
+    <nav class="desk-actions desk-clue-pages" id="desk-clue-pages" aria-label="Páginas del dibujo" hidden>
+      <button type="button" id="btn-desk-clue-prev">Anterior</button>
+      <span id="desk-clue-page-count" aria-live="polite"></span>
+      <button type="button" id="btn-desk-clue-next">Ver el dorso</button>
+    </nav>
+    <div class="desk-actions"><button type="button" id="btn-close-desk-clue" autofocus>Seguir mirando</button></div>
+  </dialog>
+
   <dialog class="wall-note-dialog" id="wall-note-dialog" aria-labelledby="wall-note-title">
     <button class="wall-note-dialog__close" id="btn-close-wall-note" type="button" aria-label="Cerrar nota" autofocus>&times;</button>
     <h2 id="wall-note-title">POR SI PASAS POR AQUÍ</h2>
     <div class="wall-note-dialog__text" tabindex="0" aria-label="Texto de la nota">
       <p>Hoy es 26 de octubre de 2026 y he cambiado algunas cosas por aquí. Esta vez no voy a avisarte. Me apetecía dejarlo como una pequeña sorpresa, por si algún día te acuerdas de este rincón y te da por volver.</p>
-      <p>Últimamente no he tenido mucho tiempo, pero he ido añadiendo detalles en los ratos que encontraba. Me sigue haciendo ilusión preparar este espacio para ti.</p>
-      <p>Si has pasado por aquí y has encontrado esta nota, espero que lo que veas te saque una pequeña sonrisa.</p>
+      <p>Últimamente no he tenido mucho tiempo, pero he ido añadiendo detalles en los ratos que encontraba. Me sigue haciendo ilusión preparar este espacio para ti, aprovechando los momentos que voy encontrando.</p>
+      <p>No sé cuánto tiempo más podré estar... ni siquiera si llegaré a poder entregarte el regalo que llevo tiempo preparando para ti. Por eso hoy también quería dejar aquí algo de lo que a veces me cuesta decirte: que me acuerdo de ti, que me importa cómo estás y que preparar estas pequeñas sorpresas sigue haciéndome ilusión, aunque todavía no sepa cuánto tiempo me quedará para seguir haciéndolo.</p>
+      <p>Si has pasado por aquí y has leído esta nota, espero que esto te saque una pequeña sonrisa. Detrás de cada detalle hay un rato en el que pensé en ti y me hizo ilusión preparar algo que pudieras encontrar.</p>
+      <p>Y yo, Josemi, Doris, Minion... solo quiero que, cuando el tiempo pase y los recuerdos sean lo único que se pueda abrazar, encuentres en este pequeño rincón una parte de mí que nunca se haya ido.</p>
     </div>
-    <footer class="wall-note-dialog__signature"><em>César.</em></footer>
+    <footer class="wall-note-dialog__signature"><em>César</em></footer>
   </dialog>
 
   <section class="starry-sky" id="starry-sky" aria-hidden="true" aria-label="Cielo estrellado">
@@ -916,7 +977,13 @@
     src="./Entrada 1 Septiembre/in the pool.mp3"
     data-track-primary="./Entrada 1 Septiembre/in the pool.mp3"
     data-track-secondary="./Entrada 1 Septiembre/Mesora di sole.mp3"></audio>
+  <audio
+    id="anniversary-audio"
+    loop
+    preload="none"
+    src="./Entrada Aniversario/Tony Anderson - Butterflies (Piano Sonata) - Tony Anderson.mp3"></audio>
   <script src="./supabase-config.js"></script>
   <script src="./script.js"></script>
+  <script src="./desk-view.js"></script>
 </body>
 </html>

@@ -45,6 +45,7 @@ function initializeNovemberCountdown(element) {
   function updateCountdown() {
     // Recalculate from the deadline so background tabs cannot make the countdown drift.
     const remainingSeconds = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+    if (remainingSeconds === 0) document.body.classList.add("world-fractured");
     const values = {
       days: Math.floor(remainingSeconds / 86400),
       hours: Math.floor((remainingSeconds % 86400) / 3600),

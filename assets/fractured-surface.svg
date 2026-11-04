@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" preserveAspectRatio="none" fill="none">
+  <defs>
+    <path id="cracks" d="M160 0 177 38 160 77 197 111 185 156 225 193 209 230 246 271 231 318 258 358 240 407 269 450 260 500 M197 111 247 126 276 112 314 136 M225 193 178 210 152 245 110 253 80 280 0 290 M231 318 285 300 319 324 361 317 M240 407 193 425 174 456 132 466 M754 0 735 48 757 83 724 123 740 164 704 202 723 244 690 280 708 328 674 365 691 414 662 456 680 500 M724 123 681 111 655 136 615 125 M704 202 751 216 780 201 825 225 867 216 896 242 1000 250 M708 328 759 340 786 375 828 383 M662 456 611 438 578 459 531 447"/>
+  </defs>
+  <use href="#cracks" stroke="#000" stroke-opacity=".72" stroke-width="4"/>
+  <use href="#cracks" transform="translate(1.5 1.2)" stroke="#bfaa83" stroke-opacity=".34" stroke-width="1"/>
+  <use href="#cracks" stroke="#08090b" stroke-opacity=".8" stroke-width="1.4"/>
+</svg>

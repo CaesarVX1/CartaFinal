@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="./styles.css">
   <link rel="stylesheet" href="./desk-view.css?v=20261024-single-music-controls">
   <link rel="stylesheet" href="./responsive-ui.css">
+  <link rel="stylesheet" href="./fractured-world.css?v=20261104-persistent-cracks">
 </head>
 <body>
   <div id="welcome-menu" aria-label="Pantalla de bienvenida">
@@ -139,10 +140,33 @@
           Mira al cielo <span class="welcome-menu__starlight-icon" aria-hidden="true">&#128171;</span> - 01.09.2026
         </button>
 
-        <div class="welcome-menu__locked-group">
+        <div class="welcome-menu__locked-group anniversary-threshold">
+          <svg class="anniversary-fissures" viewBox="0 0 640 180" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
+            <defs>
+              <path id="anniversary-wall-fissures" d="M53 74 34 66 26 49 10 43 2 29 M34 66 21 76 0 72 M155 48 147 31 156 15 149 2 M147 31 132 24 125 7 M591 98 609 86 618 67 638 60 M609 86 624 99 639 97 M484 134 493 151 481 169 487 179 M493 151 510 156 519 171 M54 116 34 128 29 147 12 153 M34 128 17 125 3 133 M588 51 605 35 608 16 621 2"/>
+              <filter id="anniversary-crack-glow" x="-30%" y="-70%" width="160%" height="240%">
+                <feGaussianBlur stdDeviation="4"/>
+              </filter>
+              <filter id="anniversary-light-haze" x="-60%" y="-100%" width="220%" height="300%">
+                <feGaussianBlur stdDeviation="10"/>
+              </filter>
+            </defs>
+            <use href="#anniversary-wall-fissures" stroke="#020204" stroke-width="5"/>
+            <use href="#anniversary-wall-fissures" transform="translate(1 1)" stroke="#75634d" stroke-opacity="0.35" stroke-width="1"/>
+            <g class="anniversary-fissures__light">
+              <g fill="#efb76c" opacity="0.2" filter="url(#anniversary-light-haze)">
+                <path d="M58 75 7 36 30 87Z M587 97 638 64 623 114Z M157 48 140 0 172 9Z M483 132 472 180 512 170Z"/>
+              </g>
+              <use href="#anniversary-wall-fissures" stroke="#efaa55" stroke-width="5" opacity="0.62" filter="url(#anniversary-crack-glow)"/>
+              <use href="#anniversary-wall-fissures" stroke="#efb978" stroke-width="1.2" opacity="0.78"/>
+              <path d="m53 74-19-8 M155 48l-8-17 M591 98l18-12 M484 134l9 17 M54 116l-20 12 M588 51l17-16" stroke="#ffe1a8" stroke-width="1.6" opacity="0.9"/>
+            </g>
+          </svg>
           <button
-            class="welcome-menu__option welcome-menu__option--locked"
+            class="welcome-menu__option welcome-menu__option--locked anniversary-entry"
+            id="btn-anniversary-entry"
             type="button"
+            autocomplete="off"
             data-locked
             aria-describedby="welcome-menu-message-nov"
           >
@@ -1092,8 +1116,9 @@
     preload="none"
     src="./Entrada Aniversario/Tony Anderson - Butterflies (Piano Sonata) - Tony Anderson.mp3"></audio>
   <script src="./supabase-config.js"></script>
-  <script src="./script.js?v=20261024-single-music-controls"></script>
+  <script src="./script.js?v=20261104-fractured-world"></script>
   <script src="./desk-view.js?v=20261024-paper-drawings"></script>
   <script src="./navigation-ui.js"></script>
+  <script src="./fractured-world.js?v=20261104-persistent-cracks"></script>
 </body>
 </html>

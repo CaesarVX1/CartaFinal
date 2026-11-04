@@ -1,0 +1,140 @@
+/* A dated visual layer; existing theme variables and layouts remain unchanged. */
+.anniversary-threshold { isolation: isolate; }
+.anniversary-threshold::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url("./assets/anniversary-button-cracks.svg") center / 100% 100% no-repeat;
+  pointer-events: none;
+  animation: anniversaryLightBreath 5s ease-in-out -1s infinite;
+}
+.anniversary-fissures {
+  position: absolute;
+  left: -8%;
+  top: -1.25rem;
+  width: 116%;
+  height: calc(100% + 2.5rem);
+  pointer-events: none;
+  overflow: visible;
+  z-index: 0;
+}
+.anniversary-fissures__light {
+  animation: anniversaryLightBreath 5s ease-in-out infinite;
+  transition: opacity 1.5s ease;
+}
+#btn-anniversary-entry {
+  position: relative;
+  z-index: 1;
+  opacity: 1;
+  background:
+    radial-gradient(ellipse at 20% 0, #db994b12, transparent 42%),
+    radial-gradient(ellipse at 80% 100%, #db994b10, transparent 40%),
+    #101014ed;
+  border-color: #ae865336;
+}
+.anniversary-entry::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: url("./assets/anniversary-button-cracks.svg") center / 100% 100% no-repeat;
+  pointer-events: none;
+  animation: anniversaryLightBreath 5s ease-in-out -1s infinite;
+}
+.anniversary-entry .welcome-menu__locked-label { position: relative; opacity: 0.6; }
+@keyframes anniversaryLightBreath {
+  0%, 100% { opacity: 0.55; }
+  35% { opacity: 0.85; }
+  54% { opacity: 0.68; }
+  75% { opacity: 1; }
+}
+body.world-fractured {
+  background-image: url("./assets/fractured-surface.svg"),
+    radial-gradient(ellipse at 20% 5%, #5c4a3420, transparent 55%),
+    linear-gradient(135deg, #08090b, #171514 50%, #090a0c);
+  background-size: 100% 100vh, auto, auto;
+  background-attachment: fixed;
+}
+.world-fractured #welcome-menu {
+  background: radial-gradient(ellipse at 48% 45%, #24201b, #101013 65%, #08090c);
+}
+.world-fractured #welcome-menu::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("./assets/fractured-surface.svg") center / 100% 100% no-repeat;
+  opacity: 0.75;
+  pointer-events: none;
+}
+.world-fractured .welcome-menu__inner { position: relative; z-index: 1; }
+.world-fractured .welcome-menu__wall-crack { opacity: 1; }
+.world-fractured .welcome-menu__option {
+  border-color: #a28d665c;
+  border-radius: 9px 4px 12px 5px;
+  box-shadow: inset 0 1px #c2aa7a12, inset 0 -5px 15px #0006, 0 8px 20px #0004;
+}
+.world-fractured .welcome-menu__option--locked { opacity: 0.72; }
+.world-fractured :is(.desk-actions button, .desk-diary button, .anniversary-controls__button, #floating-controls button) {
+  background-image: url("./assets/fractured-surface.svg");
+  background-size: 100% 100%;
+}
+.fracture-relative { position: relative; }
+.fracture-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background: url("./assets/fractured-surface.svg") center / 100% 100% no-repeat;
+  opacity: 0.8;
+  pointer-events: none;
+  user-select: none;
+}
+.world-fractured .desk-paper .fracture-overlay { opacity: 0.22; }
+.anniversary-threshold .welcome-menu__message--final {
+  top: 50%;
+  width: calc(100% - 3rem);
+  max-width: 29rem;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  color: #dfc89f;
+  text-transform: none;
+  letter-spacing: 0;
+  font: 500 clamp(0.88rem, 2.4vw, 1rem)/1.6 "Manrope", sans-serif;
+  transition: opacity 0.6s ease 0.25s;
+}
+.anniversary-threshold .welcome-menu__message--final:focus { outline: none; }
+#btn-anniversary-entry.is-disintegrated { visibility: hidden; pointer-events: none; }
+.anniversary-debris {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  pointer-events: none;
+  overflow: hidden;
+}
+.anniversary-debris .anniversary-fragment {
+  position: absolute;
+  margin: 0;
+  min-height: 0;
+  max-width: none;
+  pointer-events: none;
+  transition: none;
+  will-change: transform, opacity;
+}
+.anniversary-dust {
+  position: absolute;
+  width: 3px;
+  height: 4px;
+  background: #b39b73;
+  opacity: 0;
+}
+@media (max-width: 600px) {
+  .anniversary-fissures { left: -3%; width: 106%; }
+  .world-fractured #welcome-menu::after { background-size: auto 100%; opacity: 0.55; }
+  .fracture-overlay { opacity: 0.65; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .anniversary-fissures__light, .anniversary-entry::before, .anniversary-threshold::before { animation: none; }
+  .anniversary-fissures__light { transition: none; }
+  .anniversary-threshold .welcome-menu__message--final { transition: none; }
+}

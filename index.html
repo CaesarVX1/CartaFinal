@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
-  <title>Hola Josemi</title>
+  <title>Fuera del ruido</title>
   <meta
     name="description"
     content="Landing emocional con estructura visual para texto y un GIF en repeticion."
@@ -14,12 +14,18 @@
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@500;600;700&display=swap"
     rel="stylesheet"
   >
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./styles.css?v=20261105-conservative-cleanup">
   <link rel="stylesheet" href="./desk-view.css?v=20261024-single-music-controls">
   <link rel="stylesheet" href="./responsive-ui.css">
-  <link rel="stylesheet" href="./fractured-world.css?v=20261104-persistent-cracks">
+  <link rel="stylesheet" href="./fractured-world.css?v=20261105-progressive-six">
+  <link rel="stylesheet" href="./birthday-entry.css?v=20261112-path-labels">
+  <link rel="stylesheet" href="./park-atmosphere.css?v=20261110-reader">
+  <link rel="stylesheet" href="./moon-reader.css?v=20261112">
+  <link rel="stylesheet" href="./birthday-memory.css?v=20261114-hint-layout">
+  <link rel="stylesheet" href="./menu-chomper.css?v=20261109-mouth-glow">
+  <link rel="stylesheet" href="./wish-archive.css?v=20261109-archive">
 </head>
-<body>
+<body class="world-fractured">
   <div id="welcome-menu" aria-label="Pantalla de bienvenida">
     <svg class="welcome-menu__wall-crack" viewBox="0 0 300 1000" fill="none" aria-hidden="true" focusable="false">
       <defs>
@@ -170,7 +176,78 @@
             data-locked
             aria-describedby="welcome-menu-message-nov"
           >
-            <span class="welcome-menu__locked-label">&#128274; ? ? ? - 15 . 11 . 2026</span>
+            <span class="welcome-menu__locked-label">Entre luces &#127873; - 15 . 11 . 2026</span>
+            <span class="birthday-aura" aria-hidden="true"></span>
+            <svg class="birthday-hexwork" viewBox="0 0 600 80" preserveAspectRatio="none" fill="none" aria-hidden="true" focusable="false">
+              <path d="M2 25V12L13 2H74M526 2h61l11 10v13M2 55v13l11 10h61M526 78h61l11-10V55" stroke="#bda271" stroke-opacity=".7"/>
+              <path d="M20 20h29l8-8h43M20 60h29l8 8h43M500 12h43l8 8h29M500 68h43l8-8h29" stroke="#88b9b6" stroke-opacity=".3"/>
+              <path class="birthday-hexwork__current" d="M74 2H13L2 12v56l11 10h61M526 2h61l11 10v56l-11 10h-61" stroke="#a8e3dc" stroke-width="1.3"/>
+              <path d="m23 34 5 6-5 6-5-6Zm554 0 5 6-5 6-5-6Z" fill="#b7d8c3" fill-opacity=".65"/>
+              <g fill="#f1d89f">
+                <path class="birthday-spark" d="m87 13 1.5 4.5 4.5 1.5-4.5 1.5L87 25l-1.5-4.5L81 19l4.5-1.5Z"/>
+                <path class="birthday-spark birthday-spark--second" d="m510 54 1.5 4.5 4.5 1.5-4.5 1.5L510 66l-1.5-4.5L504 60l4.5-1.5Z"/>
+                <circle class="birthday-spark birthday-spark--third" cx="49" cy="52" r="1.5"/>
+                <circle class="birthday-spark birthday-spark--fourth" cx="553" cy="24" r="1.5"/>
+              </g>
+            </svg>
+            <svg class="birthday-flower" viewBox="0 0 100 120" fill="none" aria-hidden="true" focusable="false">
+              <defs>
+                <radialGradient id="birthday-petal" cx=".43" cy=".55" r=".65">
+                  <stop stop-color="#ffb09a"/><stop offset=".19" stop-color="#ef6261"/><stop offset=".5" stop-color="#bd3047"/><stop offset="1" stop-color="#641f36"/>
+                </radialGradient>
+                <linearGradient id="birthday-stem" x1="20" y1="30" x2="80" y2="115" gradientUnits="userSpaceOnUse"><stop stop-color="#acc28d"/><stop offset=".5" stop-color="#5a8065"/><stop offset="1" stop-color="#304c44"/></linearGradient>
+              </defs>
+              <g class="birthday-flower__vine" stroke="url(#birthday-stem)" stroke-linecap="round">
+                <path d="M84 115C61 106 76 89 57 73S40 50 47 35M64 94C43 91 25 77 23 57M59 77C79 70 85 61 87 45M61 89C49 78 46 68 46 55" stroke-width="1.3"/>
+                <path d="M83 113c-17-2-17-13-9-14 7-1 8 8 2 8M33 78c-14-8-16-21-10-24" stroke-width=".6"/>
+                <g stroke-width=".65">
+                  <path d="M25 65 12 57M26 68 9 65M29 72 10 73M32 76 16 81M36 80 23 90M40 83 33 97M43 85 43 99M24 61 17 47M25 66 31 54M28 71 37 59M31 75 43 66M35 79 46 73M39 83 50 81"/>
+                  <path d="M66 74 63 59M69 72 69 54M73 69 76 51M77 65 85 50M80 60 94 49M84 54 98 49M68 73 80 79M72 70 87 74M76 66 94 67M80 61 98 59M85 51 96 43"/>
+                  <path d="M56 81 46 79M54 76 40 72M51 71 36 63M48 64 35 53M47 61 52 49M49 68 58 57M52 74 64 66"/>
+                </g>
+              </g>
+              <g class="birthday-flower__bloom">
+                <path d="M47 8C50 18 53 21 61 23L75 24C65 31 62 35 62 42l2 14C55 48 51 46 45 47L30 53c4-12 6-17 1-22L21 23c12 0 18-1 21-7Z" fill="url(#birthday-petal)" stroke="#da7f7d" stroke-width=".55"/>
+                <path d="M47 11c0 11 1 17 1 23L24 24c13 3 18 7 24 10L32 50c6-6 10-10 16-16l14 19c-3-9-7-14-14-19l24-9c-9 1-16 5-24 9" stroke="#f89c86" stroke-width=".55" opacity=".65"/>
+                <path d="M43 23c4 5 5 7 5 11l-7 8 9-4 7 5-4-9 7-5-10 1Z" fill="#e46b65" opacity=".65"/>
+                <ellipse cx="48.7" cy="34.3" rx="3.3" ry="4.2" transform="rotate(-18 48.7 34.3)" fill="#ffddbb"/>
+                <ellipse cx="49" cy="35" rx="1.4" ry="2.5" fill="#8a3b44"/>
+                <path d="m48 35 2-7m-1 7 4-5" stroke="#ffe4ba" stroke-width=".6"/>
+                <circle cx="50" cy="28" r=".9" fill="#fff1c9"/><circle cx="53" cy="30" r=".65" fill="#f5d8a6"/>
+                <path d="m47 47-3 7 7-5M62 42l4 3-4-8" stroke="#768c68" stroke-width=".8"/>
+              </g>
+              <path d="M86 36c-5-2-8 3-6 8l5 7 6-6c3-5 0-8-5-9Z" fill="#9b3449" stroke="#bf7774" stroke-width=".6"/>
+              <path d="m84 39 1 10 3-6M81 46l4 5 4-4" stroke="#a9ad7c" stroke-width=".65"/>
+            </svg>
+            <svg class="birthday-flower birthday-flower--left" viewBox="0 0 100 120" fill="none" aria-hidden="true" focusable="false">
+              <defs>
+                <radialGradient id="birthday-petal-left" cx=".43" cy=".55" r=".65">
+                  <stop stop-color="#ffb09a"/><stop offset=".19" stop-color="#ef6261"/><stop offset=".5" stop-color="#bd3047"/><stop offset="1" stop-color="#641f36"/>
+                </radialGradient>
+                <linearGradient id="birthday-stem-left" x1="20" y1="30" x2="80" y2="115" gradientUnits="userSpaceOnUse"><stop stop-color="#acc28d"/><stop offset=".5" stop-color="#5a8065"/><stop offset="1" stop-color="#304c44"/></linearGradient>
+              </defs>
+              <g class="birthday-flower__vine" stroke="url(#birthday-stem-left)" stroke-linecap="round">
+                <path d="M84 115C61 106 76 89 57 73S40 50 47 35M64 94C43 91 25 77 23 57M59 77C79 70 85 61 87 45M61 89C49 78 46 68 46 55" stroke-width="1.3"/>
+                <path d="M83 113c-17-2-17-13-9-14 7-1 8 8 2 8M33 78c-14-8-16-21-10-24" stroke-width=".6"/>
+                <g stroke-width=".65">
+                  <path d="M25 65 12 57M26 68 9 65M29 72 10 73M32 76 16 81M36 80 23 90M40 83 33 97M43 85 43 99M24 61 17 47M25 66 31 54M28 71 37 59M31 75 43 66M35 79 46 73M39 83 50 81"/>
+                  <path d="M66 74 63 59M69 72 69 54M73 69 76 51M77 65 85 50M80 60 94 49M84 54 98 49M68 73 80 79M72 70 87 74M76 66 94 67M80 61 98 59M85 51 96 43"/>
+                  <path d="M56 81 46 79M54 76 40 72M51 71 36 63M48 64 35 53M47 61 52 49M49 68 58 57M52 74 64 66"/>
+                </g>
+              </g>
+              <g class="birthday-flower__bloom">
+                <path d="M47 8C50 18 53 21 61 23L75 24C65 31 62 35 62 42l2 14C55 48 51 46 45 47L30 53c4-12 6-17 1-22L21 23c12 0 18-1 21-7Z" fill="url(#birthday-petal-left)" stroke="#da7f7d" stroke-width=".55"/>
+                <path d="M47 11c0 11 1 17 1 23L24 24c13 3 18 7 24 10L32 50c6-6 10-10 16-16l14 19c-3-9-7-14-14-19l24-9c-9 1-16 5-24 9" stroke="#f89c86" stroke-width=".55" opacity=".65"/>
+                <path d="M43 23c4 5 5 7 5 11l-7 8 9-4 7 5-4-9 7-5-10 1Z" fill="#e46b65" opacity=".65"/>
+                <ellipse cx="48.7" cy="34.3" rx="3.3" ry="4.2" transform="rotate(-18 48.7 34.3)" fill="#ffddbb"/>
+                <ellipse cx="49" cy="35" rx="1.4" ry="2.5" fill="#8a3b44"/>
+                <path d="m48 35 2-7m-1 7 4-5" stroke="#ffe4ba" stroke-width=".6"/>
+                <circle cx="50" cy="28" r=".9" fill="#fff1c9"/><circle cx="53" cy="30" r=".65" fill="#f5d8a6"/>
+                <path d="m47 47-3 7 7-5M62 42l4 3-4-8" stroke="#768c68" stroke-width=".8"/>
+              </g>
+              <path d="M86 36c-5-2-8 3-6 8l5 7 6-6c3-5 0-8-5-9Z" fill="#9b3449" stroke="#bf7774" stroke-width=".6"/>
+              <path d="m84 39 1 10 3-6M81 46l4 5 4-4" stroke="#a9ad7c" stroke-width=".65"/>
+            </svg>
           </button>
 
           <p class="welcome-menu__message" id="welcome-menu-message-nov" aria-live="polite">
@@ -179,20 +256,90 @@
         </div>
       </div>
 
+      <div class="welcome-menu__countdown-row">
       <div
         class="welcome-menu__countdown"
         id="november-countdown"
-        data-deadline="2026-11-15T00:00:00+01:00"
         role="group"
-        aria-label="Cuenta atrás hasta el 15 de noviembre de 2026 a las 00:00, hora de España peninsular"
+        aria-label="Contador inestable: tiempo indeterminado"
+        aria-live="off"
       >
         <span class="welcome-menu__countdown-unit"><strong data-countdown="days">00</strong><span>días</span></span>
         <span class="welcome-menu__countdown-unit"><strong data-countdown="hours">00</strong><span>horas</span></span>
         <span class="welcome-menu__countdown-unit"><strong data-countdown="minutes">00</strong><span>min</span></span>
         <span class="welcome-menu__countdown-unit"><strong data-countdown="seconds">00</strong><span>seg</span></span>
       </div>
+      <div class="menu-chomper" id="menu-chomper" role="img" aria-label="Chomper de Jinx, con una piedra azul y ojos de luz violeta intermitente">
+        <svg class="menu-chomper__clips" width="0" height="0" aria-hidden="true" focusable="false">
+          <defs>
+            <clipPath id="chomper-left-eye" clipPathUnits="objectBoundingBox">
+              <ellipse cx=".303" cy=".181" rx=".054" ry=".074" transform="rotate(32 .303 .181)" />
+            </clipPath>
+            <clipPath id="chomper-right-eye" clipPathUnits="objectBoundingBox">
+              <ellipse cx=".534" cy=".126" rx=".071" ry=".049" transform="rotate(40 .534 .126)" />
+            </clipPath>
+          </defs>
+        </svg>
+        <img class="menu-chomper__shell" src="./assets/jinx-chomper.png" width="1254" height="1254" alt="" decoding="async" draggable="false">
+        <span class="menu-chomper__eye menu-chomper__eye--left" aria-hidden="true"><img src="./assets/jinx-chomper.png" width="1254" height="1254" alt="" decoding="async" draggable="false"></span>
+        <span class="menu-chomper__eye menu-chomper__eye--right" aria-hidden="true"><img src="./assets/jinx-chomper.png" width="1254" height="1254" alt="" decoding="async" draggable="false"></span>
+        <span class="menu-chomper__core" aria-hidden="true"></span>
+        <span class="menu-chomper__mouth" aria-hidden="true"></span>
+      </div>
+      </div>
     </div>
   </div>
+
+  <dialog class="anniversary-destination" id="anniversary-destination" aria-label="Entrada de cumpleaños">
+    <div class="anniversary-destination__content birthday-entry" id="anniversary-destination-content" hidden>
+      <div class="birthday-scene" id="birthday-scene" aria-hidden="true">
+        <img class="birthday-scene__image" id="birthday-image" src="./Entrada Cumpleaños/Fondo entrada cumpleaños inicio.png" alt="" decoding="async">
+        <canvas class="birthday-fireworks" id="birthday-fireworks"></canvas>
+      </div>
+      <div class="anniversary-destination__body birthday-entry__body" id="anniversary-entry-content">
+        <section class="birthday-dialogue" id="birthday-dialogue" aria-label="Mensaje de cumpleaños">
+          <p class="birthday-eyebrow">Un rincón bajo las estrellas</p>
+          <h2 id="birthday-title">Lorem ipsum</h2>
+          <div class="birthday-copy" id="birthday-copy" aria-live="polite"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div>
+          <div class="birthday-dialogue__actions">
+            <span id="birthday-step">01 / 03</span>
+            <button type="button" id="birthday-next">Siguiente <span aria-hidden="true">→</span></button>
+          </div>
+        </section>
+        <section class="birthday-paths" id="birthday-paths" aria-label="Entradas de cumpleaños" hidden>
+          <p class="birthday-eyebrow">Cuatro luces. Cuatro caminos.</p>
+          <h2>Elige una entrada</h2>
+          <div class="birthday-paths__grid">
+            <button type="button" data-birthday-path="1" aria-label="Hasta la Luna, empieza por aquí"><span aria-hidden="true">✦</span><strong>Hasta la Luna</strong><small aria-hidden="true"></small></button>
+            <button type="button" data-birthday-path="2" aria-label="Deseos al cielo"><span aria-hidden="true">✦</span><strong>Deseos al cielo</strong><small aria-hidden="true"></small></button>
+            <button type="button" data-birthday-path="3" aria-label="Aquellos días"><span aria-hidden="true">✦</span><strong>Aquellos días</strong><small aria-hidden="true"></small></button>
+            <button type="button" data-birthday-path="4" aria-label="Lo que permanece"><span aria-hidden="true">✦</span><strong>Lo que permanece</strong><small aria-hidden="true"></small></button>
+          </div>
+        </section>
+      </div>
+      <div class="birthday-controls">
+        <div class="birthday-music-panel" id="birthday-music-panel" hidden>
+          <div id="birthday-song-control" hidden>
+            <label for="birthday-song">Elige una canción</label>
+            <select id="birthday-song"></select>
+          </div>
+          <div id="birthday-volume-control" hidden>
+            <label for="birthday-volume">Volumen <output id="birthday-volume-output">55%</output></label>
+            <input id="birthday-volume" type="range" min="0" max="100" step="1" value="55">
+          </div>
+          <button class="birthday-music-panel__close" id="birthday-music-close" type="button" aria-label="Cerrar controles de música">Cerrar</button>
+        </div>
+        <button class="anniversary-destination__back" id="birthday-audio-toggle" type="button">Pausar canción</button>
+        <button class="anniversary-destination__back" id="birthday-audio-change" type="button" aria-controls="birthday-music-panel" aria-expanded="false">Cambiar canción</button>
+        <button class="anniversary-destination__back" id="birthday-audio-volume" type="button" aria-controls="birthday-music-panel" aria-expanded="false">Volumen · 55%</button>
+        <button class="anniversary-destination__back" id="birthday-toggle-paths" type="button" aria-controls="birthday-paths" aria-expanded="true" hidden>Ocultar entradas</button>
+        <button class="anniversary-destination__back" id="birthday-toggle-messages" type="button" aria-controls="birthday-dialogue" aria-expanded="true" hidden>Ocultar mensajes</button>
+        <button class="anniversary-destination__back" id="birthday-return" type="button" hidden>Volver a las entradas</button>
+        <button class="anniversary-destination__back" id="btn-anniversary-back" type="button">Volver al menú</button>
+        <p class="birthday-music-status" id="birthday-music-status" aria-live="polite"></p>
+      </div>
+    </div>
+  </dialog>
 
   <dialog class="desk-dialog" id="desk-dialog" aria-label="Un vistazo al escritorio">
     <div class="desk-prompt" id="desk-prompt">
@@ -1091,14 +1238,14 @@
   <audio
     id="cyber-audio"
     loop
-    preload="auto"
+    preload="metadata"
     src="./Cancion Entrada Cyberpunk/Let You Down.mp3"
     data-track-primary="./Cancion Entrada Cyberpunk/Let You Down.mp3"
     data-track-secondary="./Cancion Entrada Cyberpunk/I Really Want To Stay At Your House.mp3"></audio>
   <audio
     id="stars-audio"
     loop
-    preload="auto"
+    preload="metadata"
     src="./Entrada 1 Septiembre/in the pool.mp3"
     data-track-primary="./Entrada 1 Septiembre/in the pool.mp3"
     data-track-secondary="./Entrada 1 Septiembre/Mesora di sole.mp3"></audio>
@@ -1116,9 +1263,17 @@
     preload="none"
     src="./Entrada Aniversario/Tony Anderson - Butterflies (Piano Sonata) - Tony Anderson.mp3"></audio>
   <script src="./supabase-config.js"></script>
-  <script src="./script.js?v=20261104-fractured-world"></script>
-  <script src="./desk-view.js?v=20261024-paper-drawings"></script>
-  <script src="./navigation-ui.js"></script>
-  <script src="./fractured-world.js?v=20261104-persistent-cracks"></script>
+  <audio id="birthday-audio" loop preload="none" src="./Entrada Cumpleaños/Los Protegidos – SIN DESPEDIRTE - César Benito.mp3"></audio>
+  <script src="./wish-archive.js?v=20261109-archive"></script>
+  <script src="./script.js?v=20261109-archive"></script>
+  <script src="./desk-view.js?v=20261109-safe-cleanup"></script>
+  <script src="./navigation-ui.js?v=20261109-safe-cleanup"></script>
+  <script src="./park-atmosphere.js?v=20261110-atmosphere3"></script>
+  <script src="./park-letter.js?v=20261114-intro"></script>
+  <script src="./moon-reader.js?v=20261114-short-note"></script>
+  <script src="./birthday-memory.js?v=20261114-finale-fix"></script>
+  <script src="./birthday-entry.js?v=20261114-memory"></script>
+  <script src="./menu-chomper.js?v=20261109-brighter"></script>
+  <script src="./fractured-world.js?v=20261108-prepared-fracture"></script>
 </body>
 </html>

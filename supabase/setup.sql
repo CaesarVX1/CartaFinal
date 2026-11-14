@@ -14,5 +14,5 @@ alter table public.star_wishes enable row level security;
 revoke all on table public.star_wishes from anon, authenticated;
 revoke all on sequence public.star_wishes_id_seq from anon, authenticated;
 
-grant select, insert on table public.star_wishes to service_role;
+grant select, insert, update, delete on table public.star_wishes to service_role;
 grant usage, select on sequence public.star_wishes_id_seq to service_role;

@@ -31,51 +31,38 @@ function initializeNovemberCountdown(element) {
     return;
   }
 
-  const deadline = Date.parse(element.dataset.deadline);
+  const fields = [...element.querySelectorAll("[data-countdown]")];
+  const labels = fields.map((field) => field.nextElementSibling);
+  const originalLabels = labels.map((label) => label?.textContent || "");
+  const symbols = "#%?/@!+*=<>~";
+  let timer = null;
+  const symbol = () => symbols[Math.floor(Math.random() * symbols.length)];
+  const visible = () => !document.hidden && !welcomeMenu?.classList.contains("is-hidden");
 
-  if (!Number.isFinite(deadline)) {
-    return;
-  }
-
-  const fields = Object.fromEntries(
-    Array.from(element.querySelectorAll("[data-countdown]"), (field) => [field.dataset.countdown, field]),
-  );
-  let intervalId = null;
-
-  function updateCountdown() {
-    // Recalculate from the deadline so background tabs cannot make the countdown drift.
-    const remainingSeconds = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
-    if (remainingSeconds === 0) document.body.classList.add("world-fractured");
-    const values = {
-      days: Math.floor(remainingSeconds / 86400),
-      hours: Math.floor((remainingSeconds % 86400) / 3600),
-      minutes: Math.floor((remainingSeconds % 3600) / 60),
-      seconds: remainingSeconds % 60,
-    };
-
-    Object.entries(values).forEach(([unit, value]) => {
-      if (fields[unit]) {
-        fields[unit].textContent = String(value).padStart(2, "0");
+  function scramble() {
+    timer = null;
+    if (!visible()) return;
+    fields.forEach((field, index) => {
+      const value = Math.random() < 0.23 ? symbol() + symbol() : String(Math.floor(Math.random() * 100)).padStart(2, "0");
+      if (field.textContent !== value) field.textContent = value;
+      const label = labels[index];
+      if (label) {
+        const text = Math.random() < 0.35 ? Array.from(originalLabels[index], () => symbol()).join("") : originalLabels[index];
+        if (label.textContent !== text) label.textContent = text;
       }
     });
-
-    if (remainingSeconds === 0 && intervalId !== null) {
-      window.clearInterval(intervalId);
-      intervalId = null;
-    }
-
-    return remainingSeconds;
+    timer = setTimeout(scramble, 450 + Math.floor(Math.random() * 400));
   }
 
-  if (updateCountdown() > 0) {
-    intervalId = window.setInterval(updateCountdown, 1000);
+  function sync() {
+    clearTimeout(timer);
+    timer = null;
+    if (visible()) scramble();
   }
 
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) {
-      updateCountdown();
-    }
-  });
+  document.addEventListener("visibilitychange", sync);
+  if (welcomeMenu) new MutationObserver(sync).observe(welcomeMenu, { attributes: true, attributeFilter: ["class"] });
+  sync();
 }
 
 initializeNovemberCountdown(novemberCountdown);
@@ -85,6 +72,8 @@ const closeWallNoteButton = document.querySelector("#btn-close-wall-note");
 const anniversaryAudio = document.querySelector("#anniversary-audio");
 const anniversaryControlsTemplate = document.querySelector("#anniversary-controls-template");
 const anniversaryControls = [...document.querySelectorAll("[data-anniversary-controls]")];
+const pageMedia = [...document.querySelectorAll("audio, video")];
+const anniversaryControlElements = new Map();
 let anniversaryMusicStarted = false;
 let anniversaryMusicPausedByUser = false;
 
@@ -92,18 +81,20 @@ function syncAnniversaryControls() {
   if (!anniversaryAudio) return;
   const volume = Math.round(anniversaryAudio.volume * 100);
   anniversaryControls.forEach((controls) => {
+    const { toggle, volumeButton, range, output } = anniversaryControlElements.get(controls);
     controls.hidden = !anniversaryMusicStarted;
-    controls.querySelector("[data-anniversary-toggle]").textContent = anniversaryAudio.paused ? "Reanudar canción" : "Pausar canción";
-    controls.querySelector("[data-anniversary-volume]").textContent = `Volumen · ${volume}%`;
-    controls.querySelector("input").value = volume;
-    controls.querySelector("output").textContent = `${volume}%`;
+    toggle.textContent = anniversaryAudio.paused ? "Reanudar canción" : "Pausar canción";
+    volumeButton.textContent = `Volumen · ${volume}%`;
+    range.value = volume;
+    output.textContent = `${volume}%`;
   });
 }
 
 function closeAnniversaryVolumePanels() {
   anniversaryControls.forEach((controls) => {
-    controls.querySelector("[data-anniversary-panel]").hidden = true;
-    controls.querySelector("[data-anniversary-volume]").setAttribute("aria-expanded", "false");
+    const { panel, volumeButton } = anniversaryControlElements.get(controls);
+    panel.hidden = true;
+    volumeButton.setAttribute("aria-expanded", "false");
   });
 }
 
@@ -113,6 +104,7 @@ anniversaryControls.forEach((controls, index) => {
   const volumeButton = controls.querySelector("[data-anniversary-volume]");
   const panel = controls.querySelector("[data-anniversary-panel]");
   const range = controls.querySelector("input");
+  anniversaryControlElements.set(controls, { toggle, volumeButton, panel, range, output: controls.querySelector("output") });
   panel.id = `anniversary-volume-panel-${index}`;
   range.id = `anniversary-volume-range-${index}`;
   volumeButton.setAttribute("aria-controls", panel.id);
@@ -183,7 +175,7 @@ function startAnniversaryAudio() {
   anniversaryMusicStarted = true;
   syncAnniversaryControls();
 
-  document.querySelectorAll("audio, video").forEach((media) => {
+  pageMedia.forEach((media) => {
     if (media !== anniversaryAudio) {
       media.pause();
     }
@@ -193,7 +185,7 @@ function startAnniversaryAudio() {
   playAttempt?.catch(() => {});
 }
 
-document.querySelectorAll("audio, video").forEach((media) => {
+pageMedia.forEach((media) => {
   if (media !== anniversaryAudio) {
     media.addEventListener("play", stopAnniversaryAudio);
   }
@@ -499,12 +491,10 @@ let cyberCommandTimeoutIds = [];
 let cyberSequenceStartTime = 0;
 let cyberPausedDuration = 0;
 let cyberPauseStartedAt = 0;
-let cyberLastElapsedMs = 0;
 let cyberNextCommandIndex = 0;
 let cyberHandledWarningThresholds = new Set();
 let cyberActiveWarningThreshold = null;
 let cyberFinalSequenceScheduled = false;
-let cyberInterfaceMode = "terminal";
 
 if (welcomeMenu) {
   document.body.classList.add("menu-open");
@@ -1039,6 +1029,7 @@ if (welcomeMenu) {
 
     try {
       await requestWishesApi({ action: "submit", wish });
+      window.dispatchEvent(new Event("wishes:changed"));
       showWishConfirmation();
     } catch (error) {
       status.textContent = getWishRequestErrorMessage(error, "No se ha podido guardar el deseo. Inténtalo de nuevo.");
@@ -1130,6 +1121,7 @@ if (welcomeMenu) {
   }
 
   function lockWishArchive() {
+    window.CARTA_WISHES?.lockAdmin();
     if (wishAdminLogin) {
       wishAdminLogin.hidden = false;
       wishAdminLogin.reset();
@@ -1167,6 +1159,7 @@ if (welcomeMenu) {
       wishAdminLogin.hidden = true;
       wishAdminArchive.hidden = false;
       wishAdminPassword.value = "";
+      window.CARTA_WISHES?.openAdmin(password, result.wishes, result.role, result.hasMore);
     } catch (error) {
       wishAdminStatus.textContent = getWishRequestErrorMessage(error, "No se ha podido abrir el archivo.");
       wishAdminStatus.className = "wish-admin__status is-error";
@@ -1468,12 +1461,10 @@ if (welcomeMenu) {
     cyberSequenceStartTime = 0;
     cyberPausedDuration = 0;
     cyberPauseStartedAt = 0;
-    cyberLastElapsedMs = 0;
     cyberNextCommandIndex = 0;
     cyberHandledWarningThresholds = new Set();
     cyberActiveWarningThreshold = null;
     cyberFinalSequenceScheduled = false;
-    cyberInterfaceMode = "terminal";
 
     if (cyberProgressFill) {
       cyberProgressFill.style.width = "0%";
@@ -1532,7 +1523,6 @@ if (welcomeMenu) {
     const elapsed = Math.min(cyberSequenceDuration, effectiveNow - cyberSequenceStartTime - cyberPausedDuration);
     const progress = (elapsed / cyberSequenceDuration) * 100;
 
-    cyberLastElapsedMs = elapsed;
     flushCyberCommands(elapsed);
 
     const pendingWarning = cyberWarningMilestones.find(
@@ -1599,8 +1589,10 @@ if (welcomeMenu) {
     const rounded = Math.round(safeProgress);
 
     cyberProgressFill.style.width = `${safeProgress}%`;
-    cyberProgressValue.textContent = `${rounded}%`;
-    cyberProgressTrack.setAttribute("aria-valuenow", `${rounded}`);
+    const label = `${rounded}%`;
+    if (cyberProgressValue.textContent !== label) cyberProgressValue.textContent = label;
+    const ariaValue = String(rounded);
+    if (cyberProgressTrack.getAttribute("aria-valuenow") !== ariaValue) cyberProgressTrack.setAttribute("aria-valuenow", ariaValue);
   }
 
   function pauseCyberSequenceAt(warning) {
@@ -1722,7 +1714,6 @@ if (welcomeMenu) {
     }
 
     cyberTerminalStream.classList.remove("cyber-terminal__stream--access");
-    cyberInterfaceMode = "terminal";
 
     const previousCursor = cyberTerminalStream.querySelector(".cyber-terminal__cursor");
 
@@ -1765,7 +1756,6 @@ if (welcomeMenu) {
       return;
     }
 
-    cyberInterfaceMode = "access";
     cyberTerminalStream.classList.add("cyber-terminal__stream--access");
     cyberTerminalStream.innerHTML = `
       <div class="cyber-access-screen">
@@ -1810,7 +1800,6 @@ if (welcomeMenu) {
       return;
     }
 
-    cyberInterfaceMode = "journey";
     cyberTerminalStream.classList.remove("cyber-terminal__stream--access");
     cyberTerminalStream.innerHTML = "";
 

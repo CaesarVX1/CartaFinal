@@ -1,0 +1,42 @@
+.birthday-wishes {
+  width: min(100%, 68rem);
+  max-height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(0.8rem, 2vw, 1.5rem);
+  color: #f2e5c8;
+  border: 1px solid #c5a76966;
+  border-radius: 3px 18px;
+  background: #091a22ad;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 12px 40px #0005;
+}
+.birthday-wishes__header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-shrink: 0; }
+.birthday-wishes__header h2 { margin-bottom: 0; }
+.birthday-wishes__status { font: 400 0.8rem/1.6 "Manrope", sans-serif; flex-shrink: 0; margin-block: 0.8rem; }
+.birthday-wishes__cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); grid-auto-rows: max-content; align-content: start; align-items: start; gap: 1rem; overflow: auto; min-height: 0; padding: 0.2rem 0.4rem 0.4rem 0; overscroll-behavior: contain; touch-action: pan-y; scrollbar-color: #bca77d #102129; }
+.birthday-wishes__card { aspect-ratio: 1; box-sizing: border-box; min-width: 0; min-height: 0; overflow: auto; padding: 1rem; border: 1px solid #c4a56e66; border-radius: 3px 12px; background: linear-gradient(145deg, #213c42ed, #0e202aeb); box-shadow: inset 0 0 0 3px #c4a56e0c; scrollbar-width: thin; scrollbar-color: #bca77d #102129; }
+.birthday-wishes__star { display: block; color: #edce89; margin-bottom: 0.5rem; font-size: 1.25rem; }
+.birthday-wishes__date { display: block; color: #b8cdc9; font: 500 0.65rem/1.7 "Manrope", sans-serif; }
+.birthday-wishes__text { margin: 0.7rem 0 0; color: #f5ead2; white-space: pre-wrap; overflow-wrap: anywhere; font: 500 1.25rem/1.5 "Cormorant Garamond", serif; }
+.wish-archive-button { min-height: 44px; padding: 0.6rem 0.9rem; border: 1px solid #bda57680; border-radius: 4px 10px; background: #152c34; color: #f1e3c4; cursor: pointer; font: 500 0.76rem/1.4 "Manrope", sans-serif; }
+.wish-archive-button:hover { background: #24434b; }
+.wish-archive-button:disabled { opacity: 0.5; cursor: wait; }
+.wish-archive-button:focus-visible, .wish-editor input:focus-visible, .wish-editor textarea:focus-visible { outline: 2px solid #e9d298; outline-offset: 3px; }
+.wish-editor { width: min(35rem, calc(100vw - 2rem)); max-height: calc(100dvh - 2rem); overflow: auto; box-sizing: border-box; padding: clamp(1rem, 4vw, 2rem); color: #eee1c7; background: #0d1b25; border: 1px solid #b7a06b88; border-radius: 4px 18px; font-family: "Manrope", sans-serif; overscroll-behavior: contain; }
+.wish-editor::backdrop { background: #02060cbb; backdrop-filter: blur(6px); }
+.wish-editor h2 { margin: 0 0 1rem; font: 500 2rem/1.2 "Cormorant Garamond", serif; }
+.wish-editor__form { display: grid; gap: 0.7rem; }
+.wish-editor__form label { font-size: 0.85rem; }
+.wish-editor input, .wish-editor textarea { width: 100%; min-width: 0; box-sizing: border-box; padding: 0.7rem; color: #f4ebd6; background: #050e17; border: 1px solid #b7a06b77; border-radius: 5px; font: 400 1rem/1.6 "Manrope", sans-serif; color-scheme: dark; }
+.wish-editor textarea { resize: vertical; }
+.wish-editor__note, .wish-editor__status { margin: 0; font-size: 0.76rem; line-height: 1.6; }
+.wish-editor__confirmation { color: #ffd6bf; line-height: 1.6; }
+.wish-editor__actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.6rem; }
+@media (max-width: 600px) {
+  .birthday-wishes__header { align-items: start; gap: 0.5rem; }
+  .birthday-wishes__header h2 { font-size: 1.65rem; }
+  .birthday-wishes__header .birthday-eyebrow { font-size: 0.5rem; }
+  .birthday-wishes__cards { gap: 0.7rem; }
+}

@@ -1,0 +1,32 @@
+.moon-reader-hit {
+  position: absolute; left: 50%; top: 50%; z-index: 2;
+  clip-path: polygon(51% 31%, 59% 34%, 68.5% 33%, 64% 53%, 57% 79%, 36% 68%, 36.5% 62%, 40% 62%, 46% 47%);
+  border: 0; padding: 0; background: transparent; cursor: pointer;
+  touch-action: manipulation; will-change: transform;
+}
+.moon-reader-hit span { position: absolute; left: 45%; top: 65%; padding: 0.4rem 0.6rem; border: 1px solid #d9ff6880; border-radius: 4px; background: #09120df0; color: #efffc5; font: 600 clamp(0.65rem, 1.3vw, 0.85rem)/1.4 "Manrope", sans-serif; }
+.moon-reader-hit:hover, .moon-reader-hit:focus-visible { background: #c7ff551a; }
+.moon-reader-hit:focus-visible { background: #c7ff5530; outline: none; }
+.birthday-entry:has(.moon-reader-hit:not([hidden])) .birthday-controls { z-index: 4; }
+.moon-reader {
+  box-sizing: border-box; width: min(42rem, calc(100% - 1.5rem));
+  max-width: none; max-height: calc(100dvh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  margin: auto; padding: 0; overflow: hidden;
+  color: #e7edf1; background: #0d141b; border: 1px solid #8bb3bb66; border-top: 3px solid #dcff58;
+  border-radius: 3px 16px 3px 12px; box-shadow: 0 24px 90px #0009, 0 0 25px #73e6e910;
+  font-family: "Manrope", sans-serif;
+}
+.moon-reader[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; animation: moonReaderOpen 0.35s ease both; }
+.moon-reader::backdrop { background: #02070cbd; backdrop-filter: blur(5px); }
+.moon-reader header { padding: clamp(1rem, 4vw, 1.75rem); border-bottom: 1px solid #82e4e426; background: linear-gradient(120deg, #15252e, #0d141b); box-shadow: inset -3px 0 #ed6ca570; }
+.moon-reader__signal { margin: 0 0 0.6rem; color: #bff365; font: 600 0.65rem/1.6 "Manrope", sans-serif; letter-spacing: 0.12em; }
+.moon-reader h2 { margin: 0; color: #f1f6f8; font: 500 clamp(1.7rem, 5vw, 2.2rem)/1.2 "Cormorant Garamond", serif; }
+.moon-reader__body { min-height: 0; padding: clamp(1rem, 4vw, 1.75rem); overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #83b2b6 #0d141b; }
+.moon-reader__body p { margin: 0 0 1.2rem; color: #e7edf1; opacity: 1; text-shadow: none; font: 400 clamp(0.95rem, 2.5vw, 1.05rem)/1.95 "Manrope", sans-serif; }
+.moon-reader__body p:last-child { margin-bottom: 0; }
+.moon-reader footer { display: flex; justify-content: center; padding: 0.8rem 1rem; border-top: 1px solid #82e4e426; }
+.moon-reader button { min-height: 44px; padding: 0.65rem 1.6rem; color: #ecffc5; background: #c6ff5810; border: 1px solid #c6ff5860; border-radius: 3px 10px; font: 600 0.8rem/1.4 "Manrope", sans-serif; cursor: pointer; }
+.moon-reader button:hover { background: #c6ff5825; }
+.moon-reader button:focus-visible, .moon-reader__body:focus-visible { outline: 2px solid #8ae6e7; outline-offset: -3px; }
+@keyframes moonReaderOpen { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .moon-reader[open] { animation: none; } }

@@ -1,0 +1,120 @@
+.park-atmosphere {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
+.park-atmosphere__water { position: absolute; inset: 0; width: 100%; height: 100%; }
+.park-atmosphere__shade {
+  position: absolute;
+  inset: -5%;
+  background: radial-gradient(ellipse at 15% 15%, #17231745, transparent 30%), radial-gradient(ellipse at 80% 25%, #182b2138, transparent 25%), radial-gradient(ellipse at var(--sun-x) 30%, #fff1bd14, transparent 30%);
+  mask-image: linear-gradient(#000b, #0006 55%, transparent 85%);
+  animation: parkCanopyBreeze 17s ease-in-out infinite alternate;
+}
+.park-atmosphere__leaf {
+  position: absolute;
+  left: -4%;
+  top: var(--start);
+  width: var(--leaf-size);
+  height: calc(var(--leaf-size) * 1.6);
+  border-radius: 90% 8% 85% 12%;
+  background: linear-gradient(110deg, #3c472b, #b29b56 49%, #6c703c 54%, #424f2a);
+  box-shadow: 1px 2px 3px #17211230;
+  animation: parkLeafWind var(--duration) linear var(--delay) infinite;
+}
+.park-atmosphere__leaf::before { content: ""; position: absolute; left: 48%; top: 10%; width: 1px; height: 85%; background: #e3cf8d55; transform: rotate(18deg); }
+.park-atmosphere__leaf--near { filter: blur(0.5px); scale: 1.3; }
+.park-atmosphere__leaf--far { scale: 0.65; filter: saturate(0.65); }
+.park-atmosphere__mote { position: absolute; left: var(--x); top: var(--y); width: 2px; height: 2px; border-radius: 50%; background: #f8e9bc; filter: blur(0.4px); animation: parkPollenDrift 18s ease-in-out var(--delay) infinite; }
+@keyframes parkCanopyBreeze { from { transform: translate3d(-0.6%, 0, 0) rotate(-0.3deg); opacity: 0.45; } to { transform: translate3d(0.7%, 0.4%, 0) rotate(0.4deg); opacity: 0.7; } }
+@keyframes parkPollenDrift { 0%, 100% { opacity: 0; transform: translate3d(-2vw, 1vh, 0); } 30% { opacity: 0.3; } 65% { opacity: 0.15; transform: translate3d(3vw, -3vh, 0); } 95% { opacity: 0; transform: translate3d(6vw, -2vh, 0); } }
+@keyframes parkLeafWind {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) rotateY(0deg); opacity: 0; }
+  8% { opacity: 0.65; }
+  25% { transform: translate3d(26vw, var(--sway), 0) rotate(70deg) rotateY(95deg); }
+  45% { transform: translate3d(51vw, 3vh, 0) rotate(145deg) rotateY(150deg); }
+  65% { transform: translate3d(72vw, var(--drift), 0) rotate(230deg) rotateY(235deg); opacity: 0.6; }
+  82% { transform: translate3d(96vw, calc(var(--drift) - 4vh), 0) rotate(300deg) rotateY(280deg); }
+  100% { transform: translate3d(120vw, calc(var(--drift) + 5vh), 0) rotate(390deg) rotateY(360deg); opacity: 0; }
+}
+@media (max-width: 600px) {
+  .park-atmosphere__leaf:nth-of-type(n + 9), .park-atmosphere__mote:nth-of-type(n + 5) { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .park-atmosphere__leaf, .park-atmosphere__mote { display: none; animation: none; }
+  .park-atmosphere__shade { animation: none; }
+}
+
+.park-letter-hit {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  clip-path: polygon(37.4% 32.2%, 65.6% 32.7%, 73.8% 87.9%, 31.8% 88.8%);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: zoom-in;
+  touch-action: manipulation;
+  will-change: transform;
+}
+.park-letter-hit:hover, .park-letter-hit:focus-visible { background: #ffdf9e16; }
+.park-letter-hit:focus-visible { background: #ffdf9e40; outline: none; }
+.birthday-entry:has(.park-letter-hit:not([hidden])) .birthday-controls { z-index: 4; }
+.park-letter {
+  box-sizing: border-box;
+  width: min(42rem, calc(100% - 1.5rem));
+  max-width: none;
+  max-height: calc(100dvh - 2rem - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  margin: auto;
+  padding: clamp(1rem, 4vw, 2rem);
+  overflow: hidden;
+  color: #30291f;
+  border: 1px solid #b6a17a;
+  border-radius: 3px 9px 4px 7px;
+  background: #f5ecd7;
+  box-shadow: inset 0 0 24px #977b4912, 0 25px 90px #0008;
+  font-family: "Manrope", sans-serif;
+}
+.park-letter[open] { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 1rem; animation: parkLetterOpen 0.4s ease both; }
+.park-letter::backdrop { background: #0b130e99; backdrop-filter: blur(6px); }
+.park-letter [hidden] { display: none !important; }
+.park-letter header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.park-letter h2 { margin: 0; font: 500 clamp(1.6rem, 5vw, 2rem)/1.2 "Cormorant Garamond", serif; }
+.park-letter__body { min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: #a38b61 #e7d9b9; padding: 0.25rem 0.5rem; }
+.park-letter__text { font: 400 clamp(0.95rem, 2.5vw, 1.05rem)/1.95 "Manrope", sans-serif; }
+.park-letter__text p { margin: 0 0 1.2rem; color: inherit; opacity: 1; text-shadow: none; }
+.park-letter__text p:last-child { margin-bottom: 0; }
+.park-letter__image { box-sizing: border-box; min-height: min(40dvh, 20rem); display: grid; place-items: center; border: 1px dashed #a38b6180; background: linear-gradient(140deg, #fff8e233, #a8906220); color: #78684b; }
+.park-letter__image p { padding: 1rem; font-size: 0.85rem; text-align: center; }
+.park-letter__image:has(img) { display: block; min-height: 0; border: 0; background: none; }
+.park-letter__image img { display: block; width: 100%; height: auto; }
+.park-letter__text p:last-child { text-align: right; font-style: italic; }
+.park-letter footer { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 0.75rem; padding-top: 0.8rem; border-top: 1px solid #a38b6140; }
+.park-letter button { min-height: 44px; padding: 0.6rem 0.8rem; border: 1px solid #9e845b88; border-radius: 4px 9px; background: #a38b6114; color: inherit; font: 600 0.75rem/1.4 "Manrope", sans-serif; cursor: pointer; }
+.park-letter button:disabled { opacity: 0.35; cursor: default; }
+.park-letter button:not(:disabled):hover { background: #a38b6130; }
+.park-letter button:focus-visible, .park-letter__body:focus-visible { outline: 2px solid #82623b; outline-offset: 3px; }
+.park-letter footer span { font-size: 0.7rem; white-space: nowrap; }
+@keyframes parkLetterOpen { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 400px) { .park-letter header { gap: 0.5rem; } .park-letter footer { gap: 0.4rem; } .park-letter button { padding: 0.6rem; } }
+@media (prefers-reduced-motion: reduce) { .park-letter[open] { animation: none; } }
+.park-letter--viewer[open] {
+  width: 100%; height: 100dvh; max-height: 100dvh;
+  padding: max(0.75rem, env(safe-area-inset-top)) max(0.75rem, env(safe-area-inset-right)) max(0.75rem, env(safe-area-inset-bottom)) max(0.75rem, env(safe-area-inset-left));
+  gap: 0.5rem; border: 0; border-radius: 0; background: transparent; box-shadow: none;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+.park-letter--viewer::backdrop { background: #030705eb; }
+.park-letter--viewer header { justify-content: flex-end; }
+.park-letter--viewer .park-letter__close { color: #fff7e5; background: #17251ee8; border-color: #bba77d80; }
+.park-letter--viewer .park-letter__body { padding: 0; scrollbar-color: #a38b61 #17251e; }
+.park-letter--viewer .park-letter__image:has(img) { height: 100%; display: grid; place-items: center; }
+.park-letter--viewer .park-letter__image img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; cursor: zoom-in; }
+.park-letter--zoomed .park-letter__image:has(img) { display: block; height: auto; width: max(100%, 70rem); }
+.park-letter--zoomed .park-letter__image img { width: 100%; max-width: none; max-height: none; cursor: zoom-out; }
+.park-letter--viewer img:focus-visible { outline: 2px solid #e4cd96; outline-offset: -3px; }

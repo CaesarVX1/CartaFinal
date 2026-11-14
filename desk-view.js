@@ -29,6 +29,12 @@
   const diaryPages = [...document.querySelectorAll("[data-diary-page]")];
   const diaryPrevious = document.querySelector("#btn-diary-prev");
   const diaryNext = document.querySelector("#btn-diary-next");
+  const diaryTitles = diaryPages.map((page) => page.querySelector("h2").textContent);
+  const promptTitle = document.querySelector("#desk-prompt-title");
+  const decline = document.querySelector("#btn-decline-desk");
+  const viewTitle = document.querySelector("#desk-view-title");
+  const zoomCaption = portraitZoom.querySelector(".desk-portrait-zoom__header p");
+  const zoomCanvas = portraitZoom.querySelector(".desk-portrait-zoom__canvas");
   const clues = {
     throne: {
       title: "Un nuevo Heda",
@@ -80,6 +86,13 @@
   const status = document.querySelector("#desk-load-status");
   const viewStatus = document.querySelector("#desk-view-status");
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const viewProgress = document.querySelector("#desk-view-progress");
+  const clueProgress = document.querySelector("#desk-clue-progress");
+  const clueTitle = document.querySelector("#desk-clue-title");
+  const clueBody = document.querySelector("#desk-clue-text");
+  const cluePages = document.querySelector("#desk-clue-pages");
+  const cluePageCount = document.querySelector("#desk-clue-page-count");
+  const diaryPageCount = document.querySelector("#desk-diary-page-count");
   const animations = new Set();
   let state = "closed";
   let session = 0;
@@ -185,8 +198,7 @@
     const count = drawingGroups[current].filter((key) => openedDrawings.has(key)).length;
     const remaining = 3 - count;
     const text = `${count === 1 ? "Dibujo" : "Dibujos"} ${count}/3 ${count === 1 ? "leído" : "leídos"}${remaining ? `. ${remaining === 1 ? "Falta 1 más" : `Faltan ${remaining} más`}.` : "."}`;
-    document.querySelector("#desk-view-progress").textContent = `${current ? "Sobre el escritorio" : "Dibujos de la pared"} · ${count}/3 leídos`;
-    const clueProgress = document.querySelector("#desk-clue-progress");
+    viewProgress.textContent = `${current ? "Sobre el escritorio" : "Dibujos de la pared"} · ${count}/3 leídos`;
     clueProgress.hidden = !activeKey;
     clueProgress.textContent = text;
     return text;
@@ -208,13 +220,13 @@
   function updateDiaryNavigation() {
     diaryPrevious.disabled = diaryTurning || diaryPage === 0;
     diaryNext.disabled = diaryTurning || diaryPage === diaryPages.length - 1;
-    document.querySelector("#desk-diary-page-count").textContent = `Hoja ${diaryPage + 1} / ${diaryPages.length}`;
+    diaryPageCount.textContent = `Hoja ${diaryPage + 1} / ${diaryPages.length}`;
   }
 
   function renderDiaryPage() {
     diaryPages.forEach((page, index) => { page.hidden = index !== diaryPage; });
     diaryScroll.scrollTop = 0;
-    diaryScroll.setAttribute("aria-label", `Hoja del diario: ${diaryPages[diaryPage].querySelector("h2").textContent}`);
+    diaryScroll.setAttribute("aria-label", `Hoja del diario: ${diaryTitles[diaryPage]}`);
     updateDiaryNavigation();
   }
 
@@ -276,10 +288,10 @@
 
   function renderCluePage() {
     const page = pages[cluePage];
-    document.querySelector("#desk-clue-title").textContent = page.title;
-    document.querySelector("#desk-clue-text").textContent = page.text;
-    document.querySelector("#desk-clue-pages").hidden = pages.length < 2;
-    document.querySelector("#desk-clue-page-count").textContent = `${cluePage + 1} / ${pages.length}`;
+    clueTitle.textContent = page.title;
+    clueBody.textContent = page.text;
+    cluePages.hidden = pages.length < 2;
+    cluePageCount.textContent = `${cluePage + 1} / ${pages.length}`;
     previousPage.disabled = cluePage === 0;
     nextPage.disabled = cluePage === pages.length - 1;
     clueText.scrollTop = 0;
@@ -390,11 +402,11 @@
     state = "prompt";
     status.textContent = "";
     viewStatus.textContent = "";
-    document.querySelector("#desk-prompt-title").textContent = noteRead
+    promptTitle.textContent = noteRead
       ? "Se puede ver un escritorio... ¿quieres echar un vistazo?"
       : "No debería mirar por el agujero todavía... Hay una nota en la pared. Quizá debería leerla primero.";
     enter.hidden = !noteRead;
-    document.querySelector("#btn-decline-desk").textContent = noteRead ? "No" : "Volver a la pared";
+    decline.textContent = noteRead ? "No" : "Volver a la pared";
     dialog.showModal();
   }
 
@@ -423,7 +435,7 @@
       openPrompt();
     }
   });
-  document.querySelector("#btn-decline-desk").addEventListener("click", exit);
+  decline.addEventListener("click", exit);
   document.querySelector("#btn-exit-desk").addEventListener("click", exit);
   dialog.addEventListener("cancel", (event) => { event.preventDefault(); exit(); });
   dialog.addEventListener("close", cleanUp);
@@ -449,7 +461,7 @@
     layers[0].hidden = false;
     layers[1].hidden = true;
     switchView.textContent = "Vista desde arriba";
-    document.querySelector("#desk-view-title").textContent = "Vista desde abajo";
+    viewTitle.textContent = "Vista desde abajo";
     menu.classList.add("is-desk-transition");
     prompt.hidden = true;
     view.hidden = false;
@@ -495,7 +507,7 @@
       layers[next].hidden = false;
       current = next;
       resetPan();
-      document.querySelector("#desk-view-title").textContent = current ? "Vista desde arriba" : "Vista desde abajo";
+      viewTitle.textContent = current ? "Vista desde arriba" : "Vista desde abajo";
       switchView.textContent = current ? "Volver a la vista desde abajo" : "Vista desde arriba";
       viewStatus.textContent = current
         ? "Algunos papeles parecen guardar algo. Puedes tocarlos para mirar más de cerca."
@@ -568,9 +580,9 @@
     portraitZoomImage.width = illustration.width;
     portraitZoomImage.height = illustration.height;
     portraitZoom.setAttribute("aria-label", `${clues[activeKey].title}: dibujo ampliado`);
-    portraitZoom.querySelector(".desk-portrait-zoom__header p").textContent = clues[activeKey].title;
+    zoomCaption.textContent = clues[activeKey].title;
     portraitZoom.showModal();
-    portraitZoom.querySelector(".desk-portrait-zoom__canvas").scrollTop = 0;
+    zoomCanvas.scrollTop = 0;
   });
   document.querySelector("#btn-close-desk-portrait").addEventListener("click", () => portraitZoom.close());
   portraitZoom.addEventListener("close", () => {

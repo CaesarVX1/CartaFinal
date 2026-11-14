@@ -13,6 +13,10 @@
   let active = null;
   let allowsDock = false;
   let queued = false;
+  let dockHeight = -1;
+  let viewportQueued = false;
+  let viewportHeight = -1;
+  let viewportTop = -1;
 
   function isVisible(element) { return element?.classList.contains("is-visible"); }
 
@@ -43,7 +47,11 @@
   function measureDock() {
     const height = dock?.classList.contains("is-visible") && !dock.classList.contains("is-covered")
       ? dock.getBoundingClientRect().height : 0;
-    document.body.style.setProperty("--controls-height", `${Math.ceil(height)}px`);
+    const rounded = Math.ceil(height);
+    if (rounded !== dockHeight) {
+      dockHeight = rounded;
+      document.body.style.setProperty("--controls-height", `${rounded}px`);
+    }
   }
 
   function sync() {
@@ -84,21 +92,36 @@
     requestAnimationFrame(sync);
   }
 
+  const overlayObserver = new MutationObserver(queueSync);
   [welcome, starFragment, admin, arrival, video, sky, dock, ...nativeDialogs].filter(Boolean).forEach((element) => {
-    new MutationObserver(queueSync).observe(element, { attributes: true, attributeFilter: ["class", "open"] });
+    overlayObserver.observe(element, { attributes: true, attributeFilter: ["class", "open"] });
   });
-  new MutationObserver(queueSync).observe(warnings, { childList: true });
+  overlayObserver.observe(warnings, { childList: true });
   new ResizeObserver(measureDock).observe(dock);
 
   function updateViewport() {
+    viewportQueued = false;
     const viewport = window.visualViewport;
-    document.body.style.setProperty("--viewport-height", `${Math.round(viewport?.height || innerHeight)}px`);
-    document.body.style.setProperty("--viewport-top", `${Math.round(viewport?.offsetTop || 0)}px`);
+    const height = Math.round(viewport?.height || innerHeight);
+    const top = Math.round(viewport?.offsetTop || 0);
+    if (height !== viewportHeight) {
+      viewportHeight = height;
+      document.body.style.setProperty("--viewport-height", `${height}px`);
+    }
+    if (top !== viewportTop) {
+      viewportTop = top;
+      document.body.style.setProperty("--viewport-top", `${top}px`);
+    }
     measureDock();
   }
-  window.addEventListener("resize", updateViewport);
-  window.visualViewport?.addEventListener("resize", updateViewport);
-  window.visualViewport?.addEventListener("scroll", updateViewport);
+  function queueViewport() {
+    if (viewportQueued) return;
+    viewportQueued = true;
+    requestAnimationFrame(updateViewport);
+  }
+  window.addEventListener("resize", queueViewport);
+  window.visualViewport?.addEventListener("resize", queueViewport);
+  window.visualViewport?.addEventListener("scroll", queueViewport);
 
   document.addEventListener("keydown", (event) => {
     if (event.key !== "Tab" || !active || nativeDialogs.some((dialog) => dialog.open)) return;

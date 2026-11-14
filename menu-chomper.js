@@ -9,6 +9,7 @@
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
   const animations = new Set();
   let timer = null;
+  let hovering = false;
 
   function eyePattern(random = Math.random) {
     const mode = Math.floor(random() * 5);
@@ -26,6 +27,8 @@
   }
 
   function stop() {
+    hovering = false;
+    chomper.classList.remove("is-winding");
     clearTimeout(timer);
     timer = null;
     animations.forEach((animation) => animation.cancel());
@@ -59,5 +62,29 @@
   }).observe(document.body, { subtree: true, attributes: true, attributeFilter: ["class", "open"] });
   document.addEventListener("visibilitychange", sync);
   reducedMotion.addEventListener("change", sync);
+  function wind(value) {
+    chomper.classList.toggle("is-winding", value && canPlay());
+  }
+  chomper.addEventListener("pointerenter", (event) => {
+    if (event.pointerType !== "mouse") return;
+    hovering = true;
+    wind(true);
+  });
+  chomper.addEventListener("pointerleave", () => { hovering = false; wind(false); });
+  chomper.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0) return;
+    chomper.setPointerCapture(event.pointerId);
+    wind(true);
+  });
+  ["pointerup", "pointercancel", "lostpointercapture"].forEach((name) => {
+    chomper.addEventListener(name, () => wind(hovering));
+  });
+  chomper.addEventListener("keydown", (event) => {
+    if (event.key === " " || event.key === "Enter") { event.preventDefault(); wind(true); }
+  });
+  chomper.addEventListener("keyup", (event) => {
+    if (event.key === " " || event.key === "Enter") { event.preventDefault(); wind(hovering); }
+  });
+  chomper.addEventListener("blur", () => { hovering = false; wind(false); });
   sync();
 })();

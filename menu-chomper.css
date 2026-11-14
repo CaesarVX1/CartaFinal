@@ -7,9 +7,26 @@
   flex: 0 0 clamp(4rem, 8vw, 6rem);
   aspect-ratio: 1;
   isolation: isolate;
-  pointer-events: none;
+  pointer-events: auto;
   user-select: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
+.menu-chomper:focus-visible { outline: 1px solid #83d4e6; outline-offset: 4px; border-radius: 12px; }
+.menu-chomper__toy { position: relative; display: block; width: 100%; height: 100%; transform-origin: 50% 90%; pointer-events: none; }
+.menu-chomper.is-winding .menu-chomper__toy { animation: powderMonkeyWind 1.6s ease-in-out infinite; }
+.menu-chomper.is-winding .menu-chomper__core { animation: powderStonePulse 1.6s ease-in-out infinite; }
+@keyframes powderMonkeyWind {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  25% { transform: translateY(-2px) rotate(2deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  75% { transform: translateY(-1px) rotate(-2deg); }
+}
+@keyframes powderStonePulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
 .menu-chomper::before {
   content: "";
@@ -25,25 +42,14 @@
 
 .menu-chomper__clips { position: absolute; }
 .menu-chomper img { width: 100%; height: auto; }
-.menu-chomper__shell { position: relative; filter: brightness(1.2) saturate(1.12) drop-shadow(4px 8px 5px #0009); }
-.menu-chomper__eye { position: absolute; inset: 0; opacity: 0.04; filter: drop-shadow(0 0 4px #f446ff) drop-shadow(0 0 11px #bd3bea); }
-.menu-chomper__eye img { filter: brightness(5.5) saturate(2.8) hue-rotate(8deg); }
+.menu-chomper__shell { position: relative; display: block; filter: brightness(1.05) drop-shadow(3px 5px 4px #0009); }
+.menu-chomper__eye { position: absolute; inset: 0; opacity: 0.04; filter: drop-shadow(0 0 3px #ff4529) drop-shadow(0 0 7px #f66529); }
+.menu-chomper__eye img { filter: brightness(2.8) saturate(1.6); }
 .menu-chomper__eye--left img { clip-path: url(#chomper-left-eye); }
 .menu-chomper__eye--right img { clip-path: url(#chomper-right-eye); }
-.menu-chomper__core { position: absolute; left: 19%; top: 65%; width: 22%; height: 22%; background: radial-gradient(ellipse, #dbfbffb3, #67d6ff59 30%, #38aaff1f 52%, transparent 74%); mix-blend-mode: screen; }
-.menu-chomper__mouth {
-  position: absolute;
-  left: 27%;
-  top: 31%;
-  width: 46%;
-  height: 12%;
-  transform: rotate(-19deg);
-  border-radius: 50%;
-  background: radial-gradient(ellipse, #9beaff4d 0%, #43bcff33 30%, #329aff14 55%, transparent 76%);
-  mix-blend-mode: screen;
-  pointer-events: none;
-}
+.menu-chomper__core { position: absolute; left: 43%; top: 45%; width: 20%; height: 22%; background: radial-gradient(ellipse, #b8f4ff8c, #42bfff40 35%, transparent 74%); mix-blend-mode: screen; pointer-events: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .menu-chomper__eye { opacity: 0.4; }
+  .menu-chomper.is-winding .menu-chomper__toy, .menu-chomper.is-winding .menu-chomper__core { animation: none; }
 }

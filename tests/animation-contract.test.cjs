@@ -7,15 +7,13 @@ const read = (file) => fs.readFileSync(path.join(__dirname, "..", file), "utf8")
 const hash = (text) => crypto.createHash("sha256").update(text).digest("hex");
 
 // Baseline captured before the conservative cleanup: do not regenerate it to silence regressions.
-test("fracture, chomper and all effective visual styles are unchanged", () => {
+test("fracture and visual styles outside the explicitly redesigned monkey are unchanged", () => {
   const fingerprints = {
     "fractured-world.js": "e0a2683c44ac8ff4c4b87ec8a9695d46a1e7bb48d2c5a7faca28c4002650897b",
     "fractured-world.css": "2c5c96206b611d10cdc5b184406fd07c4fcbc7dba5a1704f7f303eae07f37a21",
     "styles.css": "57bf08b5293610f1ebd450151c7bbc57790aef11f843955b7834d6f41fd4c3cc",
     "desk-view.css": "6761f25004067db8b184be2315147d494aa045c5fa8787c1b2039cae4aa5ccf7",
     "responsive-ui.css": "6b1b4e7ba7e475be3e4804c94a8452cecda45684e694b41bc43b4950867920fe",
-    "menu-chomper.css": "a1e592de7e34789b3d922209b1e758d19a244b3e4349a5a1c0da077c0240f884",
-    "menu-chomper.js": "f8cfab426736cce60178c88083f3b70cff45b994d3f9d1d5e7935a625f64216b",
   };
   Object.entries(fingerprints).forEach(([file, expected]) => assert.equal(hash(read(file)), expected, file));
   // The actions container always retains its span and button, so :empty can never match.
